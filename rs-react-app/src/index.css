@@ -11,6 +11,13 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
 }
 
 a {
@@ -28,6 +35,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: black;
 }
 
 h1 {
@@ -52,6 +60,13 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+input {
+  color: white;
+  font-size: 1.5rem;
+  border: 1px solid white;
+  border-radius: 0.5rem;
+  padding: 0 6px;
 }
 
 @media (prefers-color-scheme: light) {
