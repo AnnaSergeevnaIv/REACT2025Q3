@@ -1,1 +1,1 @@
-export const localStorageSearchKey = 'inputValue'
+export const localStorageSearchKey = 'inputValue';
