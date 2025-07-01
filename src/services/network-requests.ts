@@ -2,7 +2,7 @@ import { type AxiosResponse } from 'axios';
 import { APIServiceCharacters, APIServiceCharactersPhoto } from './api-service';
 import type { PhotoCharacterData } from '../App';
 
-interface CharacterData {
+export interface CharacterData {
   name: string;
   eye_color: string;
   height: number;

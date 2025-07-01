@@ -1,2 +1,0 @@
-echo "🔥 pre-commit hook started"
-npx lint-staged

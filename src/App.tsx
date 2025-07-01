@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { MainPage } from './pages/main-page';
 import { getPhotoData } from './services/network-requests';
+import { localStoragePhotoKey } from './constants/constants';
 
 export interface PhotoCharacterData {
   name: string;
@@ -23,9 +24,14 @@ export class App extends Component<AppProps, AppState> {
   }
 
   async getPhotos() {
-    const data = await getPhotoData();
-    this.setState({ photoData: data });
-    console.log('data photo', data);
+    const photoData = localStorage.getItem(localStoragePhotoKey);
+    if (photoData) {
+      this.setState({ photoData: JSON.parse(photoData) });
+    } else {
+      const data = await getPhotoData();
+      this.setState({ photoData: data });
+      localStorage.setItem(localStoragePhotoKey, JSON.stringify(data));
+    }
   }
 
   render() {
