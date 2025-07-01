@@ -9,6 +9,8 @@ import { type CharacterData } from '../services/network-requests';
 interface MainPageState {
   inputValue: string;
   data: CharacterData[];
+  loading: boolean;
+  error: boolean;
 }
 interface MainProps {
   photoData: PhotoCharacterData[];
@@ -18,8 +20,14 @@ export class MainPage extends Component<MainProps, MainPageState> {
   constructor(props: MainProps) {
     super(props);
     const value = localStorage.getItem(localStorageSearchKey);
-    this.state = { inputValue: value ?? '', data: [] };
+    this.state = {
+      inputValue: value ?? '',
+      data: [],
+      loading: true,
+      error: false,
+    };
   }
+
   async componentDidMount() {
     await this.getData();
   }
@@ -31,16 +39,17 @@ export class MainPage extends Component<MainProps, MainPageState> {
     ) {
       this.setState({ data: this.mapData(this.state.data) });
     }
+    if (this.state.error) throw new Error('Test error from button!');
   }
 
   async getData(value: string = this.state.inputValue) {
     const data = await getCharacters(value);
-    this.setState({ data: this.mapData(data) });
+    this.setState({ data: this.mapData(data), loading: false });
   }
 
   handleClick = (value: string) => {
     localStorage.setItem(localStorageSearchKey, value);
-    this.setState({ inputValue: value });
+    this.setState({ inputValue: value, loading: true });
     this.getData(value);
   };
 
@@ -49,17 +58,26 @@ export class MainPage extends Component<MainProps, MainPageState> {
       character.image = this.props.photoData.find(
         (elem) => elem.name === character.name
       )?.image;
-      console.log(character.image);
       return character;
     });
   }
 
+  handleClickErrorButton() {
+    this.setState({ error: true });
+  }
+
   render(): ReactNode {
-    console.log('MainPage render, photoData:', this.props.photoData);
     return (
       <div className="w-100%">
         <Header clickHandle={this.handleClick} value={this.state.inputValue} />
-        <CardsLayout characters={this.state.data} />
+        {this.state.loading ? (
+          <h1>Loading...</h1>
+        ) : (
+          <CardsLayout characters={this.state.data} />
+        )}
+        <button onClick={this.handleClickErrorButton.bind(this)}>
+          Throw error
+        </button>
       </div>
     );
   }

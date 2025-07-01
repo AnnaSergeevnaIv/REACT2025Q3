@@ -33,7 +33,7 @@ export class Header extends Component<HeaderProps, HeaderState> {
         />
         <button
           onClick={() => {
-            this.props.clickHandle(this.state.inputValue);
+            this.props.clickHandle(this.state.inputValue.trimEnd());
           }}
         >
           Search

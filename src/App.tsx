@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { MainPage } from './pages/main-page';
 import { getPhotoData } from './services/network-requests';
 import { localStoragePhotoKey } from './constants/constants';
+import { ErrorBoundary } from './services/error-boundary';
 
 export interface PhotoCharacterData {
   name: string;
@@ -11,13 +12,9 @@ export interface PhotoCharacterData {
 interface AppState {
   photoData: PhotoCharacterData[];
 }
-type AppProps = { props: unknown };
 
-export class App extends Component<AppProps, AppState> {
-  constructor() {
-    super({ props: {} });
-    this.state = { photoData: [] };
-  }
+export class App extends Component<Record<string, never>, AppState> {
+  state = { photoData: [] };
 
   async componentDidMount() {
     await this.getPhotos();
@@ -35,7 +32,13 @@ export class App extends Component<AppProps, AppState> {
   }
 
   render() {
-    return <MainPage photoData={this.state.photoData} />;
+    return (
+      <ErrorBoundary
+        fallback={<h1>Something went wrong. Please refresh the page </h1>}
+      >
+        <MainPage photoData={this.state.photoData} />
+      </ErrorBoundary>
+    );
   }
 }
 

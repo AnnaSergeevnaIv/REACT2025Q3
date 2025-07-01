@@ -13,10 +13,8 @@ interface ResponseCharacters {
 }
 
 export async function getCharacters(search: string = '') {
-  console.log('getCharacters', search);
   const response: AxiosResponse<ResponseCharacters> =
     await APIServiceCharacters.get(search ? `?search=${search}` : ``);
-  console.log(response);
   return response.data.results;
 }
 
