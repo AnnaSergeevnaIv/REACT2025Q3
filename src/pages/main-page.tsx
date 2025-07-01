@@ -11,6 +11,7 @@ interface MainPageState {
   data: CharacterData[];
   loading: boolean;
   error: boolean;
+  requestError: string;
 }
 interface MainProps {
   photoData: PhotoCharacterData[];
@@ -25,6 +26,7 @@ export class MainPage extends Component<MainProps, MainPageState> {
       data: [],
       loading: true,
       error: false,
+      requestError: '',
     };
   }
 
@@ -44,7 +46,15 @@ export class MainPage extends Component<MainProps, MainPageState> {
 
   async getData(value: string = this.state.inputValue) {
     const data = await getCharacters(value);
-    this.setState({ data: this.mapData(data), loading: false });
+    if (typeof data !== 'string') {
+      this.setState({
+        data: this.mapData(data),
+        loading: false,
+        requestError: '',
+      });
+    } else {
+      this.setState({ requestError: data, loading: false });
+    }
   }
 
   handleClick = (value: string) => {
@@ -72,6 +82,8 @@ export class MainPage extends Component<MainProps, MainPageState> {
         <Header clickHandle={this.handleClick} value={this.state.inputValue} />
         {this.state.loading ? (
           <h1>Loading...</h1>
+        ) : this.state.requestError ? (
+          <h1 className="mb-7">{this.state.requestError}</h1>
         ) : (
           <CardsLayout characters={this.state.data} />
         )}

@@ -13,15 +13,18 @@ interface ResponseCharacters {
 }
 
 export async function getCharacters(search: string = '') {
-  const response: AxiosResponse<ResponseCharacters> =
-    await APIServiceCharacters.get(search ? `?search=${search}` : ``);
-  return response.data.results;
+  try {
+    const response: AxiosResponse<ResponseCharacters> =
+      await APIServiceCharacters.get(search ? `?search=${search}` : ``);
+    return response.data.results ?? [];
+  } catch (error) {
+    return `Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+  }
 }
 
 export async function getPhotoData() {
   const response: AxiosResponse<PhotoCharacterData[]> =
     await APIServiceCharactersPhoto.get('');
   const data = response.data;
-  console.log('data from axios', data);
   return data;
 }

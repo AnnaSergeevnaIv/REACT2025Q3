@@ -9,7 +9,7 @@ interface CardsLayoutProps {
 export class CardsLayout extends Component<CardsLayoutProps> {
   render(): ReactNode {
     return (
-      <div className="flex flex-wrap gap-7 justify-center">
+      <div className="flex flex-wrap gap-7 justify-center mb-7">
         {this.props.characters.map((character) => (
           <Card {...character} key={character.name} />
         ))}
