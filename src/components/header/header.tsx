@@ -1,7 +1,7 @@
 import { Component, type ChangeEvent, type ReactNode } from 'react';
 import logo from '../../assets/logo.png';
 
-interface HeaderProps {
+export interface HeaderProps {
   clickHandle: (value: string) => void;
   value: string;
 }

@@ -4,6 +4,7 @@ import placeholder from '../../assets/placeholder.png';
 
 export class Card extends Component<CharacterData, CharacterData> {
   render(): ReactNode {
+    console.log(this.props);
     return (
       <div className="w-50 h-90 flex-col items-center rounded-2xl overflow-hidden shadow-md">
         <img
