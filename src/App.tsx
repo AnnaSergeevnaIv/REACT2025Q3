@@ -3,6 +3,7 @@ import { MainPage } from './pages/main-page';
 import { getPhotoData } from './services/network-requests';
 import { localStoragePhotoKey } from './constants/constants';
 import { ErrorBoundary } from './services/error-boundary';
+import { getPhotoDataFromLS, setPhotoDataToLS } from './utils/storage';
 
 export interface PhotoCharacterData {
   name: string;
@@ -21,13 +22,13 @@ export class App extends Component<Record<string, never>, AppState> {
   }
 
   async getPhotos() {
-    const photoData = localStorage.getItem(localStoragePhotoKey);
+    const photoData = getPhotoDataFromLS(localStoragePhotoKey);
     if (photoData) {
-      this.setState({ photoData: JSON.parse(photoData) });
+      this.setState({ photoData });
     } else {
-      const data = await getPhotoData();
-      this.setState({ photoData: data });
-      localStorage.setItem(localStoragePhotoKey, JSON.stringify(data));
+      const photoData = await getPhotoData();
+      this.setState({ photoData });
+      setPhotoDataToLS(localStoragePhotoKey, photoData);
     }
   }
 
