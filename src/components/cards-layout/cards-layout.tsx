@@ -2,7 +2,7 @@ import { Component, type ReactNode } from 'react';
 import { type CharacterData } from '../../services/network-requests';
 import { Card } from '../card/card';
 
-interface CardsLayoutProps {
+export interface CardsLayoutProps {
   characters: CharacterData[];
 }
 

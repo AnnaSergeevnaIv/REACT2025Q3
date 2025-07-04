@@ -6,7 +6,10 @@ export class Card extends Component<CharacterData, CharacterData> {
   render(): ReactNode {
     console.log(this.props);
     return (
-      <div className="w-50 h-90 flex-col items-center rounded-2xl overflow-hidden shadow-md">
+      <div
+        className="w-50 h-90 flex-col items-center rounded-2xl overflow-hidden shadow-md"
+        data-testid="card"
+      >
         <img
           src={this.props.image ? this.props.image : placeholder}
           alt={this.props.name + ' image'}

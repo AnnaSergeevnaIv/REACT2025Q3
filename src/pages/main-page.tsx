@@ -13,7 +13,7 @@ interface MainPageState {
   error: boolean;
   requestError: string;
 }
-interface MainProps {
+export interface MainProps {
   photoData: PhotoCharacterData[];
 }
 
