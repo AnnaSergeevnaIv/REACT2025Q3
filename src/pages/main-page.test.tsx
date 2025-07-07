@@ -102,4 +102,16 @@ describe('Card component', () => {
       ).toHaveAttribute('src', mockPhotoCharacterData[0].image);
     });
   });
+
+  test('renders correctly when getCharacters returns empty array', async () => {
+    const mockMainPageProps: MainProps = { photoData: [] };
+    const getCharactersMock = vi
+      .spyOn(network, 'getCharacters')
+      .mockImplementation(() => Promise.resolve([]));
+    render(<MainPage {...mockMainPageProps} />);
+    await waitFor(() => {
+      expect(screen.queryAllByTestId('card')).toHaveLength(0);
+      expect(getCharactersMock).toHaveBeenCalled();
+    });
+  });
 });
