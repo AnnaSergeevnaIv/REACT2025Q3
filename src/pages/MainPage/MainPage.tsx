@@ -1,4 +1,4 @@
-import { Component, type ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import type { PhotoCharacterData } from '../../App';
 import { getCharacters } from '../../services/network-requests';
 import { type CharacterData } from '../../services/network-requests';
@@ -10,89 +10,64 @@ import {
   MAIN_PAGE_CLASS,
   MAIN_PAGE_H1_CLASS,
 } from './MainPage.constants';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
-interface MainPageState {
-  inputValue: string;
-  data: CharacterData[];
-  loading: boolean;
-  error: boolean;
-  requestError: string;
-}
 export interface MainProps {
   photoData: PhotoCharacterData[];
 }
 
-export class MainPage extends Component<MainProps, MainPageState> {
-  constructor(props: MainProps) {
-    super(props);
-    const value = localStorage.getItem(localStorageSearchKey);
-    this.state = {
-      inputValue: value ?? '',
-      data: [],
-      loading: true,
-      error: false,
-      requestError: '',
-    };
-  }
+export function MainPage({ photoData }: MainProps) {
+  const [inputValue, setInputValue] = useLocalStorage<string>(
+    localStorageSearchKey,
+    ''
+  );
+  const [loading, setLoading] = useState(true);
+  const [requestError, setRequestError] = useState('');
+  const [data, setData] = useState<CharacterData[]>([]);
 
-  async componentDidMount() {
-    await this.getData();
-  }
-
-  componentDidUpdate(prevProps: MainProps) {
-    if (
-      prevProps.photoData !== this.props.photoData &&
-      this.state.data.length > 0
-    ) {
-      this.setState({ data: this.mapData(this.state.data) });
+  useEffect(() => {
+    async function getData(inputValue: string) {
+      const data = await getCharacters(inputValue);
+      if (typeof data !== 'string') {
+        setLoading(false);
+        setData(mapData(data, photoData));
+      } else {
+        setRequestError(data);
+        setLoading(false);
+      }
     }
-    if (this.state.error) throw new Error('Test error from button!');
-  }
-
-  async getData(value: string = this.state.inputValue) {
-    const data = await getCharacters(value);
-    if (typeof data !== 'string') {
-      this.setState({
-        data: this.mapData(data),
-        loading: false,
-        requestError: '',
-      });
-    } else {
-      this.setState({ requestError: data, loading: false });
+    if (loading) {
+      getData(inputValue);
     }
-  }
+  }, [photoData, loading]);
 
-  handleClick = (value: string) => {
-    localStorage.setItem(localStorageSearchKey, value);
-    this.setState({ inputValue: value, loading: true });
-    this.getData(value);
+  const handleClick = (value: string) => {
+    setInputValue(value);
+    setLoading(true);
   };
 
-  mapData(data: CharacterData[]): CharacterData[] {
-    return data.map((character) => ({
-      ...character,
-      image: this.props.photoData.find((elem) => elem.name === character.name)
-        ?.image,
-    }));
-  }
+  return (
+    <div className={MAIN_PAGE_CLASS}>
+      <Header clickHandle={handleClick} value={inputValue} />
+      {loading ? (
+        <h1>{LOADING_TEXT}</h1>
+      ) : requestError ? (
+        <h1 className={MAIN_PAGE_H1_CLASS}>{requestError}</h1>
+      ) : (
+        <CardsLayout characters={data} />
+      )}
+    </div>
+  );
+}
 
-  handleClickErrorButton = () => {
-    this.setState({ error: true });
-  };
-
-  render(): ReactNode {
-    return (
-      <div className={MAIN_PAGE_CLASS}>
-        <Header clickHandle={this.handleClick} value={this.state.inputValue} />
-        {this.state.loading ? (
-          <h1>{LOADING_TEXT}</h1>
-        ) : this.state.requestError ? (
-          <h1 className={MAIN_PAGE_H1_CLASS}>{this.state.requestError}</h1>
-        ) : (
-          <CardsLayout characters={this.state.data} />
-        )}
-        <button onClick={this.handleClickErrorButton}>Throw error</button>
-      </div>
-    );
-  }
+function mapData(
+  data: CharacterData[],
+  photoData: PhotoCharacterData[]
+): CharacterData[] {
+  return data.map((character) => {
+    character.image = photoData.find(
+      (elem) => elem.name === character.name
+    )?.image;
+    return character;
+  });
 }

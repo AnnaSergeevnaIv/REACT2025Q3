@@ -55,20 +55,6 @@ describe('Card component', () => {
     });
   });
 
-  test('throws error when error button is clicked', async () => {
-    const consoleError = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
-    render(<MainPage {...mockEmptyMainPageProps} />);
-    const errorButton = screen.getByRole('button', { name: 'Throw error' });
-
-    await expect(userEvent.click(errorButton)).rejects.toThrow(
-      'Test error from button!'
-    );
-
-    consoleError.mockRestore();
-  });
-
   test('calls getData and updates state on input submission', async () => {
     const getCharactersMock = vi
       .spyOn(network, 'getCharacters')
