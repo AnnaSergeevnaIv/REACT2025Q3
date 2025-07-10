@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import { getPhotoData } from './services/network-requests';
 import { localStoragePhotoKey } from './constants/constants';
-import { ErrorBoundary } from './services/error-boundary';
-import { getPhotoDataFromLS, setPhotoDataToLS } from './utils/storage';
+import { getPhotoDataFromLS, setPhotoDataToLS } from './utils/Storage/Storage';
 import { MainPage } from './pages/MainPage';
+import { ErrorBoundary } from './services/ErrorBoundary';
 
 export interface PhotoCharacterData {
   name: string;
