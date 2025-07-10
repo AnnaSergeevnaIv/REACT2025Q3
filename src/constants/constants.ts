@@ -1,4 +1,3 @@
-export const localStorageSearchKey = 'inputValue';
 export const localStoragePhotoKey = 'photoData';
 export const baseURLCharacters = 'https://swapi.py4e.com/api/people/';
 export const baseURLCharactersPhotos =

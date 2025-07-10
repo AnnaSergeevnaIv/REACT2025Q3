@@ -1,15 +1,16 @@
 import { Component, type ReactNode } from 'react';
 import { type CharacterData } from '../../services/network-requests';
 import placeholder from '../../assets/placeholder.png';
+import { CARD_CONTAINER_CLASS, CARD_IMAGE_CLASS } from './Card.constants';
 
-export class Card extends Component<CharacterData, CharacterData> {
+export class Card extends Component<CharacterData> {
   render(): ReactNode {
     return (
-      <div className="w-50 h-90 flex-col items-center rounded-2xl overflow-hidden shadow-md">
+      <div className={CARD_CONTAINER_CLASS}>
         <img
           src={this.props.image ? this.props.image : placeholder}
-          alt={this.props.name + ' image'}
-          className="w-50 h-65 object-cover object-top mb-2"
+          alt={`${this.props.name} image`}
+          className={CARD_IMAGE_CLASS}
         />
         <h3 className="font-bold text-white">{this.props.name}</h3>
         <p>{`Height: ${this.props.height}`}</p>

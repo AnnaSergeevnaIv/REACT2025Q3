@@ -1,10 +1,14 @@
 import { Component, type ReactNode } from 'react';
-import { Header } from '../components/header/header';
-import { localStorageSearchKey } from '../constants/constants';
-import type { PhotoCharacterData } from '../App';
-import { getCharacters } from '../services/network-requests';
-import { CardsLayout } from '../components/cards-layout/cards-layout';
-import { type CharacterData } from '../services/network-requests';
+import type { PhotoCharacterData } from '../../App';
+import { getCharacters } from '../../services/network-requests';
+import { type CharacterData } from '../../services/network-requests';
+import { CardsLayout } from '../../components/CardsLayout';
+import { Header } from '../../components/Header';
+import {
+  localStorageSearchKey,
+  MAIN_PAGE_CLASS,
+  MAIN_PAGE_H1_CLASS,
+} from './MainPage.constants';
 
 interface MainPageState {
   inputValue: string;
@@ -64,32 +68,29 @@ export class MainPage extends Component<MainProps, MainPageState> {
   };
 
   mapData(data: CharacterData[]): CharacterData[] {
-    return data.map((character) => {
-      character.image = this.props.photoData.find(
-        (elem) => elem.name === character.name
-      )?.image;
-      return character;
-    });
+    return data.map((character) => ({
+      ...character,
+      image: this.props.photoData.find((elem) => elem.name === character.name)
+        ?.image,
+    }));
   }
 
-  handleClickErrorButton() {
+  handleClickErrorButton = () => {
     this.setState({ error: true });
-  }
+  };
 
   render(): ReactNode {
     return (
-      <div className="w-100%">
+      <div className={MAIN_PAGE_CLASS}>
         <Header clickHandle={this.handleClick} value={this.state.inputValue} />
         {this.state.loading ? (
           <h1>Loading...</h1>
         ) : this.state.requestError ? (
-          <h1 className="mb-7">{this.state.requestError}</h1>
+          <h1 className={MAIN_PAGE_H1_CLASS}>{this.state.requestError}</h1>
         ) : (
           <CardsLayout characters={this.state.data} />
         )}
-        <button onClick={this.handleClickErrorButton.bind(this)}>
-          Throw error
-        </button>
+        <button onClick={this.handleClickErrorButton}>Throw error</button>
       </div>
     );
   }
