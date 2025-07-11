@@ -1,50 +1,36 @@
-import { Component } from 'react';
+import { useEffect } from 'react';
 import { getPhotoData } from './services/network-requests';
 import { localStoragePhotoKey } from './constants/constants';
-import { getPhotoDataFromLS, setPhotoDataToLS } from './utils/Storage/Storage';
 import { MainPage } from './pages/MainPage';
 import { ErrorBoundary } from './services/ErrorBoundary';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 export interface PhotoCharacterData {
   name: string;
   image: string;
 }
 
-interface AppState {
-  photoData: PhotoCharacterData[];
-}
-
-export class App extends Component<Record<string, never>, AppState> {
-  state = { photoData: [] };
-
-  async componentDidMount() {
-    await this.getPhotos();
-  }
-
-  async getPhotos() {
-    try {
-      const photoData = getPhotoDataFromLS(localStoragePhotoKey);
-      if (photoData) {
-        this.setState({ photoData });
-      } else {
-        const photoData = await getPhotoData();
-        this.setState({ photoData });
-        setPhotoDataToLS(localStoragePhotoKey, photoData);
+export default function App() {
+  const [photoData, setPhotoData] = useLocalStorage<PhotoCharacterData[]>(
+    localStoragePhotoKey,
+    []
+  );
+  useEffect(() => {
+    async function getPhotos() {
+      if (photoData.length > 0) {
+        return;
       }
-    } catch (error) {
-      console.error('Failed to get photo data', error);
+      const photoDataFromAPI = await getPhotoData();
+      setPhotoData(photoDataFromAPI);
     }
-  }
+    getPhotos();
+  }, []);
 
-  render() {
-    return (
-      <ErrorBoundary
-        fallback={<h1>Something went wrong. Please refresh the page </h1>}
-      >
-        <MainPage photoData={this.state.photoData} />
-      </ErrorBoundary>
-    );
-  }
+  return (
+    <ErrorBoundary
+      fallback={<h1>Something went wrong. Please refresh the page </h1>}
+    >
+      <MainPage photoData={photoData} />
+    </ErrorBoundary>
+  );
 }
-
-export default App;
