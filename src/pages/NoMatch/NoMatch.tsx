@@ -5,11 +5,12 @@ import {
   NO_MATCH_LINK_CLASS,
   NO_MATCH_PARAGRAPH_CLASS,
   NO_MATCH_SECTION_SPACING_CLASS,
+  NO_MATCH_TEST_ID,
 } from './NoMatch.constants';
 
 export function NoMatch() {
   return (
-    <div data-testid="no-match" className={NO_MATCH_CLASS}>
+    <div data-testid={NO_MATCH_TEST_ID} className={NO_MATCH_CLASS}>
       <h1 className={NO_MATCH_H1_CLASS}>
         404 - This is not the page you’re looking for
       </h1>
