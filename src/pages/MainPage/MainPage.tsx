@@ -24,11 +24,9 @@ export function MainPage() {
   );
 
   useEffect(() => {
-    if (inputValue && location.pathname === '/') {
-      navigate(`/?search=${inputValue}`);
-    } else {
-      navigate(`/?page=1`);
-    }
+    if (location.pathname !== '/') return;
+    const targetUrl = inputValue ? `/?search=${inputValue}` : '/?page=1';
+    navigate(targetUrl, { replace: true });
   }, [inputValue]);
 
   const handleClick = (value: string) => {

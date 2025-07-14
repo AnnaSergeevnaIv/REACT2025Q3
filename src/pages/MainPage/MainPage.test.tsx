@@ -28,10 +28,10 @@ describe('MainPage component', () => {
   });
 
   test('displays initial input value from localStorage', async () => {
-    localStorage.setItem(localStorageSearchKey, 'test');
+    localStorage.setItem(localStorageSearchKey, TEST_SEARCH_INPUT);
     render(<MainPage />);
     await waitFor(() => {
-      expect(screen.getByRole('textbox')).toHaveValue('test');
+      expect(screen.getByRole('textbox')).toHaveValue(TEST_SEARCH_INPUT);
     });
     localStorage.removeItem(localStorageSearchKey);
   });
@@ -39,18 +39,20 @@ describe('MainPage component', () => {
   test('calls navigate with search param when inputValue exists', () => {
     localStorage.setItem(localStorageSearchKey, TEST_SEARCH_INPUT);
     render(<MainPage />);
-    expect(mockNavigate).toHaveBeenCalledWith(`/?search=${TEST_SEARCH_INPUT}`);
+    expect(mockNavigate).toHaveBeenCalledWith(`/?search=${TEST_SEARCH_INPUT}`, {
+      replace: true,
+    });
   });
 
   test('calls navigate with default page=1 if no inputValue exists', () => {
     render(<MainPage />);
-    expect(mockNavigate).toHaveBeenCalledWith(`/?page=1`);
+    expect(mockNavigate).toHaveBeenCalledWith(`/?page=1`, { replace: true });
   });
 
   test('updates localStorage and calls navigate on search', async () => {
     render(<MainPage />);
     await userEvent.type(screen.getByRole('textbox'), TEST_SEARCH_INPUT);
-    await userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button', { name: 'Search' }));
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith(
         `/?search=${TEST_SEARCH_INPUT}`

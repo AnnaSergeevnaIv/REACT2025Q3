@@ -26,7 +26,7 @@ export const router = createBrowserRouter([
             element: <CardsLayout />,
           },
           {
-            path: 'about',
+            path: '/about',
             element: <AboutPage />,
           },
         ],

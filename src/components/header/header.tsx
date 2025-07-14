@@ -1,10 +1,13 @@
 import { useState, type ChangeEvent } from 'react';
 import logo from '../../assets/logo.png';
 import {
+  HEADER_ABOUT_BUTTON_NAME,
   HEADER_CLASS,
   HEADER_IMAGE_CLASS,
   HEADER_INPUT_CLASS,
+  HEADER_SEARCH_BUTTON_NAME,
 } from './Header.constant';
+import { useNavigate } from 'react-router';
 
 export interface HeaderProps {
   clickHandle: (value: string) => void;
@@ -13,7 +16,7 @@ export interface HeaderProps {
 
 export function Header({ clickHandle, value }: HeaderProps) {
   const [inputValue, setInputValue] = useState(value);
-
+  const navigate = useNavigate();
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
@@ -33,7 +36,14 @@ export function Header({ clickHandle, value }: HeaderProps) {
           clickHandle(inputValue.trim());
         }}
       >
-        Search
+        {HEADER_SEARCH_BUTTON_NAME}
+      </button>
+      <button
+        onClick={() => {
+          navigate('/about');
+        }}
+      >
+        {HEADER_ABOUT_BUTTON_NAME}
       </button>
     </header>
   );
