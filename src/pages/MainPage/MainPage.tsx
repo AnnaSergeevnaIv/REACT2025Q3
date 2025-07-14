@@ -25,9 +25,15 @@ export function MainPage() {
 
   useEffect(() => {
     if (location.pathname !== '/') return;
+    const searchParams = new URLSearchParams(location.search);
+    const hasPage = searchParams.has('page');
+    const hasSearch = searchParams.has('search');
+
+    if (hasPage || hasSearch) return;
+
     const targetUrl = inputValue ? `/?search=${inputValue}` : '/?page=1';
     navigate(targetUrl, { replace: true });
-  }, [inputValue]);
+  }, [inputValue, location]);
 
   const handleClick = (value: string) => {
     navigate(`/?search=${value}`);

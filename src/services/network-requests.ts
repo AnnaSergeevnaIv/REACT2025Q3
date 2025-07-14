@@ -11,18 +11,23 @@ export interface CharacterData {
 }
 interface ResponseCharacters {
   results: CharacterData[];
+  previous: string | undefined;
+  next: string | undefined;
 }
 
 export async function getCharacters(search: string, page: number) {
   try {
     const response: AxiosResponse<ResponseCharacters> =
       await APIServiceCharacters.get(
-        search ? `?search=${search}` : `?page=${page}`
+        search ? `?search=${search}&page=${page}` : `?page=${page}`
       );
-    console.log('response', response, response.data.results);
-    return { error: undefined, data: response.data.results ?? [] };
+    const data: ResponseCharacters = {
+      results: response.data.results,
+      previous: response.data.previous,
+      next: response.data.next,
+    };
+    return { error: undefined, data: data };
   } catch (error) {
-    console.log(error);
     return {
       error: error instanceof Error ? error.message : 'Unknown error',
       data: undefined,
