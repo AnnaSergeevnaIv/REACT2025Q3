@@ -20,7 +20,10 @@ describe('MainPage component', () => {
   const mockNavigate = vi.fn();
   beforeEach(() => {
     (reactRouter.useNavigate as Mock).mockReturnValue(mockNavigate);
-    (reactRouter.useLocation as Mock).mockReturnValue({ pathname: '/' });
+    (reactRouter.useLocation as Mock).mockReturnValue({
+      pathname: '/',
+      search: '',
+    });
   });
   afterEach(() => {
     vi.resetAllMocks();
@@ -61,5 +64,23 @@ describe('MainPage component', () => {
         TEST_SEARCH_INPUT
       );
     });
+  });
+
+  test('does not call navigate when searchParams already contain page or search', () => {
+    (reactRouter.useLocation as Mock).mockReturnValue({
+      pathname: '/',
+      search: '?page=2&search=Luke',
+    });
+    render(<MainPage />);
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
+
+  test('skips navigation logic when pathname is not "/"', () => {
+    (reactRouter.useLocation as Mock).mockReturnValue({
+      pathname: '/about',
+      search: '',
+    });
+    render(<MainPage />);
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 });

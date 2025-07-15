@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { Card } from '../../components/Card';
 import {
   ABOUT_PAGE_BUTTON_NAME,
@@ -15,12 +15,12 @@ export function AboutPage() {
   return (
     <div data-testid={ABOUT_PAGE_TEST_ID}>
       <div className={ABOUT_PAGE_CLASS}>
-        <Link to="https://github.com/AnnaSergeevnaIv">
+        <a href="https://github.com/AnnaSergeevnaIv">
           <Card {...ABOUT_PAGE_ME_DATA}></Card>
-        </Link>
-        <Link to="https://rs.school">
+        </a>
+        <a to="https://rs.school">
           <Card {...ABOUT_PAGE_SCHOOL_DATA}></Card>
-        </Link>
+        </a>
       </div>
       <p className={ABOUT_PAGE_TEXT_CLASS}>{ABOUT_PAGE_TEXT}</p>
       <button

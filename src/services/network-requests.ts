@@ -45,7 +45,7 @@ async function getCharacters(search: string, page: number) {
 
 async function getCharacter(id: string) {
   try {
-    const response: AxiosResponse<ResponseCharacters<FullCharacterData>> =
+    const response: AxiosResponse<FullCharacterData> =
       await APIServiceCharacters.get(`/${id}`);
     console.log(response);
     return { data: response.data, error: undefined };
