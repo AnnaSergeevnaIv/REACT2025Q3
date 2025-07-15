@@ -1,19 +1,8 @@
 import { useEffect } from 'react';
-import type { PhotoCharacterData } from '../../App';
-import { type CharacterData } from '../../services/network-requests';
 import { Header } from '../../components/Header';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { localStorageSearchKey, MAIN_PAGE_CLASS } from './MainPage.constants';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-
-export interface MainProps {
-  photoData: PhotoCharacterData[];
-}
-
-export interface Data {
-  data?: CharacterData[];
-  error?: string;
-}
 
 export function MainPage() {
   const navigate = useNavigate();

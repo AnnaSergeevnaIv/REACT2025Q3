@@ -1,14 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import { Card, type CardProps } from './Card';
 import placeholder from '../../assets/placeholder.png';
+import userEvent from '@testing-library/user-event';
+import { CARD_TEST_ID } from './Card.constants';
 
 describe('Card component', () => {
   const baseProps: CardProps = {
     name: 'Darth Vader',
     height: 202,
     eye_color: 'yellow',
-    url: '',
-    cardClickHandle: () => {},
+    url: 'www.ggg/1/',
+    cardClickHandle: vi.fn(),
   };
   test('Card component should render image from given props', () => {
     const props: CardProps = {
@@ -30,5 +32,11 @@ describe('Card component', () => {
     expect(
       screen.getByRole('img', { name: `${baseProps.name} image` })
     ).toHaveAttribute('src', placeholder);
+  });
+
+  test('calls cardClickHandle with correct id on click', async () => {
+    render(<Card {...baseProps} />);
+    await userEvent.click(screen.getByTestId(CARD_TEST_ID));
+    expect(baseProps.cardClickHandle).toHaveBeenCalledWith('1');
   });
 });

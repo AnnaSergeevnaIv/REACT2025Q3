@@ -3,14 +3,14 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import App from './App.tsx';
-import { NoMatch } from './pages/NoMatch/NoMatch.tsx';
-import { MainPage } from './pages/MainPage/MainPage.tsx';
+import { NoMatch } from './pages/NoMatch';
+import { MainPage } from './pages/MainPage';
 import { CardsLayout } from './components/CardsLayout';
 import {
   characterDetailLoader,
   charactersLoader,
 } from './services/network-requests.ts';
-import { AboutPage } from './pages/AboutPage/AboutPage.tsx';
+import { AboutPage } from './pages/AboutPage';
 import { DetailPage } from './pages/DetailPage';
 
 export const router = createBrowserRouter([

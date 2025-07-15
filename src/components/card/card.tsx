@@ -1,6 +1,11 @@
 import { type CharacterData } from '../../services/network-requests';
 import placeholder from '../../assets/placeholder.png';
-import { CARD_CONTAINER_CLASS, CARD_IMAGE_CLASS } from './Card.constants';
+import {
+  CARD_CONTAINER_CLASS,
+  CARD_IMAGE_CLASS,
+  CARD_TEST_ID,
+} from './Card.constants';
+import { getIdFromUrl } from './Card.utils';
 
 export interface CardProps extends CharacterData {
   cardClickHandle: (id: string) => void;
@@ -16,7 +21,7 @@ export function Card({
   return (
     <div
       className={CARD_CONTAINER_CLASS}
-      data-testid="card"
+      data-testid={CARD_TEST_ID}
       onClick={() => {
         cardClickHandle(getIdFromUrl(url));
       }}
@@ -31,9 +36,4 @@ export function Card({
       <p>{`Eye color: ${eye_color}`}</p>
     </div>
   );
-}
-
-function getIdFromUrl(url: string) {
-  const paths = url.split('/');
-  return paths[paths.length - 2];
 }
