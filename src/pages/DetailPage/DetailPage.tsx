@@ -2,19 +2,24 @@ import { useContext } from 'react';
 import { useNavigate, useRouteLoaderData, useSearchParams } from 'react-router';
 import { PhotoContext } from '../../services/PhotoContext';
 import placeholder from '../../assets/placeholder.png';
-import { DETAIL_PAGE_CLASS } from './DetailPage.constants';
+import {
+  DETAIL_PAGE_BUTTON_NAME,
+  DETAIL_PAGE_CLASS,
+  DETAIL_PAGE_LOADING,
+  DETAIL_PAGE_TEST_ID,
+} from './DetailPage.constants';
 
 export function DetailPage() {
   const { data, error } = useRouteLoaderData('detail');
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const photoData = useContext(PhotoContext);
-
-  const { name, height, eye_color, hair_color, mass, skin_color } = data;
   if (error) return <div>Error: {error}</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <div>{DETAIL_PAGE_LOADING}</div>;
+  const { name, height, eye_color, hair_color, mass, skin_color } = data;
+
   return (
-    <div className={DETAIL_PAGE_CLASS}>
+    <div className={DETAIL_PAGE_CLASS} data-testid={DETAIL_PAGE_TEST_ID}>
       <h3>{name}</h3>
       <ul>
         <li>
@@ -46,7 +51,7 @@ export function DetailPage() {
           navigate(`/?${searchParams}`);
         }}
       >
-        Back
+        {DETAIL_PAGE_BUTTON_NAME}
       </button>
     </div>
   );

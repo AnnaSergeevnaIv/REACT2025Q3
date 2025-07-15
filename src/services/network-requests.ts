@@ -16,7 +16,7 @@ interface ResponseCharacters<T> {
   next: string | undefined;
 }
 
-interface FullCharacterData extends CharacterData {
+export interface FullCharacterData extends CharacterData {
   hair_color: string;
   mass: string;
   skin_color: string;

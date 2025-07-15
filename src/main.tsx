@@ -11,7 +11,7 @@ import {
   charactersLoader,
 } from './services/network-requests.ts';
 import { AboutPage } from './pages/AboutPage/AboutPage.tsx';
-import { DetailPage } from './pages/DetailPage/DetailPage.tsx';
+import { DetailPage } from './pages/DetailPage';
 
 export const router = createBrowserRouter([
   {

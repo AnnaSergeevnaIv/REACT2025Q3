@@ -1,16 +1,17 @@
 import { render, screen } from '@testing-library/react';
-import { type CharacterData } from '../../services/network-requests';
-import { Card } from './Card';
+import { Card, type CardProps } from './Card';
 import placeholder from '../../assets/placeholder.png';
 
 describe('Card component', () => {
-  const baseProps: CharacterData = {
+  const baseProps: CardProps = {
     name: 'Darth Vader',
     height: 202,
     eye_color: 'yellow',
+    url: '',
+    cardClickHandle: () => {},
   };
   test('Card component should render image from given props', () => {
-    const props: CharacterData = {
+    const props: CardProps = {
       ...baseProps,
       image:
         'https://vignette.wikia.nocookie.net/fr.starwars/images/3/32/Dark_Vador.jpg',

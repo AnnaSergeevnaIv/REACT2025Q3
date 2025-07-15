@@ -2,7 +2,7 @@ import { type CharacterData } from '../../services/network-requests';
 import placeholder from '../../assets/placeholder.png';
 import { CARD_CONTAINER_CLASS, CARD_IMAGE_CLASS } from './Card.constants';
 
-interface CardProps extends CharacterData {
+export interface CardProps extends CharacterData {
   cardClickHandle: (id: string) => void;
 }
 export function Card({
