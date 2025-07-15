@@ -69,6 +69,15 @@ input {
   padding: 0 6px;
 }
 
+h3 {
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 600;
+}
+p, li {
+  color: white;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

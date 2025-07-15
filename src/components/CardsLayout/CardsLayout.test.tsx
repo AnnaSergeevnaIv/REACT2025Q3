@@ -66,17 +66,17 @@ describe('CardsLayout component', () => {
       screen.getByRole('button', { name: CARDS_LAYOUT_BUTTON_NEXT_NAME })
     );
     await waitFor(() => {
-      expect(mocks.navigate).toHaveBeenCalledWith(`/?page=3`);
+      expect(mocks.navigate).toHaveBeenCalledWith(`?page=3`);
     });
   });
 
-  test('Clicking Prev button navigates to the next page', async () => {
+  test('Clicking Prev button navigates to the prev page', async () => {
     render(<CardsLayout />);
     await userEvent.click(
       screen.getByRole('button', { name: CARDS_LAYOUT_BUTTON_PREV_NAME })
     );
     await waitFor(() => {
-      expect(mocks.navigate).toHaveBeenCalledWith(`/?page=1`);
+      expect(mocks.navigate).toHaveBeenCalledWith(`?page=1`);
     });
   });
 

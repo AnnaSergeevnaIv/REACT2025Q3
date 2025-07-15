@@ -7,7 +7,12 @@ import {
   CARDS_LAYOUT_LOADING,
 } from './CardsLayout.constants';
 import { Card } from '../Card';
-import { useNavigate, useRouteLoaderData, useSearchParams } from 'react-router';
+import {
+  Outlet,
+  useNavigate,
+  useRouteLoaderData,
+  useSearchParams,
+} from 'react-router';
 import { useContext, useMemo } from 'react';
 import type { PhotoCharacterData } from '../../App';
 import { PhotoContext } from '../../services/PhotoContext';
@@ -30,17 +35,30 @@ export function CardsLayout() {
     if (search) params.set('search', search);
     params.set('page', String(nextPage));
 
-    navigate(`/?${params.toString()}`);
+    navigate(`?${params.toString()}`);
   };
+
+  const cardClickHandle = (id: string) => {
+    navigate(`character/${id}?${searchParams.toString()}`);
+  };
+
   if (error) return <div>Error: {error}</div>;
   if (!data) return <div>{CARDS_LAYOUT_LOADING}</div>;
   return (
-    <>
-      <div className={CARDS_LAYOUT_CONTAINER_CLASS} id="cards-layout">
-        {dataWithPhoto.map((character) => (
-          <Card {...character} key={character.name} />
-        ))}
+    <div>
+      <div className="flex">
+        <div className={CARDS_LAYOUT_CONTAINER_CLASS} id="cards-layout">
+          {dataWithPhoto.map((character) => (
+            <Card
+              {...character}
+              cardClickHandle={cardClickHandle}
+              key={character.name}
+            />
+          ))}
+        </div>
+        <Outlet />
       </div>
+
       <div className={CARDS_LAYOUT_BUTTON_CONTAINER_CLASS}>
         <button
           onClick={() => {
@@ -59,7 +77,7 @@ export function CardsLayout() {
           {CARDS_LAYOUT_BUTTON_NEXT_NAME}
         </button>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -6,8 +6,12 @@ import App from './App.tsx';
 import { NoMatch } from './pages/NoMatch/NoMatch.tsx';
 import { MainPage } from './pages/MainPage/MainPage.tsx';
 import { CardsLayout } from './components/CardsLayout';
-import { charactersLoader } from './services/network-requests.ts';
+import {
+  characterDetailLoader,
+  charactersLoader,
+} from './services/network-requests.ts';
 import { AboutPage } from './pages/AboutPage/AboutPage.tsx';
+import { DetailPage } from './pages/DetailPage/DetailPage.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +28,14 @@ export const router = createBrowserRouter([
             loader: charactersLoader,
             id: 'cards-layout',
             element: <CardsLayout />,
+            children: [
+              {
+                path: 'character/:id',
+                loader: characterDetailLoader,
+                id: 'detail',
+                element: <DetailPage />,
+              },
+            ],
           },
           {
             path: '/about',
