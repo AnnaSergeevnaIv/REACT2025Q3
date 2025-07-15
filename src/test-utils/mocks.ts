@@ -8,13 +8,13 @@ export const mockCharactersData: CharacterData[] = [
     name: 'Darth Vader',
     height: 202,
     eye_color: 'yellow',
-    url: '',
+    url: 'www.dhghdf/1/',
   },
   {
     name: 'Luke Skywalker',
     height: 172,
     eye_color: 'blue',
-    url: '',
+    url: 'www.dhghdf/2/',
   },
 ];
 export const mockImage =

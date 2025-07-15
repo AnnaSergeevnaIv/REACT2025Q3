@@ -1,6 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { CardsLayout } from './CardsLayout';
-import { mockCharactersData } from '../../test-utils/mocks';
+import {
+  mockCharactersData,
+  mockPhotoCharacterData,
+} from '../../test-utils/mocks';
 import type { Mock } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import {
@@ -24,6 +27,8 @@ vi.mock('react-router', async () => {
   };
 });
 import * as reactRouter from 'react-router';
+import { CARD_TEST_ID } from '../Card';
+import { PhotoContext } from '../../services/PhotoContext';
 
 describe('CardsLayout component', () => {
   beforeEach(() => {
@@ -87,5 +92,33 @@ describe('CardsLayout component', () => {
     });
     render(<CardsLayout />);
     expect(screen.getByText(CARDS_LAYOUT_LOADING)).toBeInTheDocument();
+  });
+
+  test('calls cardClickHandle with correct ID when a card is clicked', async () => {
+    render(<CardsLayout />);
+    await userEvent.click(screen.getAllByTestId(CARD_TEST_ID)[0]);
+    expect(mocks.navigate).toHaveBeenCalledWith('character/1?page=2');
+  });
+
+  test('renders error message when route loader returns an error', () => {
+    const errorMessage = 'Something went wrong';
+    (reactRouter.useRouteLoaderData as Mock).mockReturnValue({
+      data: undefined,
+      error: errorMessage,
+    });
+
+    render(<CardsLayout />);
+    expect(screen.getByText(`Error: ${errorMessage}`)).toBeInTheDocument();
+  });
+
+  test('renders cards with images from PhotoContext', () => {
+    render(
+      <PhotoContext.Provider value={mockPhotoCharacterData}>
+        <CardsLayout />
+      </PhotoContext.Provider>
+    );
+    expect(
+      screen.getByAltText(`${mockPhotoCharacterData[0].name} image`)
+    ).toHaveAttribute('src', mockPhotoCharacterData[0].image);
   });
 });

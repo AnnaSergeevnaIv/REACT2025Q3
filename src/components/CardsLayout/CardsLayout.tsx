@@ -1,4 +1,3 @@
-import { type CharacterData } from '../../services/network-requests';
 import {
   CARDS_LAYOUT_BUTTON_CONTAINER_CLASS,
   CARDS_LAYOUT_BUTTON_NEXT_NAME,
@@ -14,8 +13,8 @@ import {
   useSearchParams,
 } from 'react-router';
 import { useContext, useMemo } from 'react';
-import type { PhotoCharacterData } from '../../App';
 import { PhotoContext } from '../../services/PhotoContext';
+import { mapData } from './CardsLayout.utils';
 
 export function CardsLayout() {
   const { data, error } = useRouteLoaderData('cards-layout');
@@ -79,16 +78,4 @@ export function CardsLayout() {
       </div>
     </div>
   );
-}
-
-function mapData(
-  data: CharacterData[],
-  photoData: PhotoCharacterData[]
-): CharacterData[] {
-  return data.map((character) => {
-    character.image = photoData.find(
-      (elem) => elem.name === character.name
-    )?.image;
-    return character;
-  });
 }
