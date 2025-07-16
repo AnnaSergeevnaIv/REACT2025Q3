@@ -82,7 +82,7 @@ export class MainPage extends Component<MainProps, MainPageState> {
 
   render(): ReactNode {
     return (
-      <div className={MAIN_PAGE_CLASS}>
+      <div className={MAIN_PAGE_CLASS} data-testid="main-page">
         <Header clickHandle={this.handleClick} value={this.state.inputValue} />
         {this.state.loading ? (
           <h1>{LOADING_TEXT}</h1>
