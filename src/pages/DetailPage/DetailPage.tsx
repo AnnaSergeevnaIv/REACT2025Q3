@@ -3,10 +3,15 @@ import { useNavigate, useRouteLoaderData, useSearchParams } from 'react-router';
 import { PhotoContext } from '../../services/PhotoContext';
 import placeholder from '../../assets/placeholder.png';
 import {
+  DETAIL_PAGE_BUTTON_CLASS,
   DETAIL_PAGE_BUTTON_NAME,
   DETAIL_PAGE_CLASS,
+  DETAIL_PAGE_IMG_CLASS,
+  DETAIL_PAGE_IMG_CONTAINER_CLASS,
+  DETAIL_PAGE_LIST_CLASS,
   DETAIL_PAGE_LOADING,
   DETAIL_PAGE_TEST_ID,
+  DETAIL_PAGE_TITLE_CLASS,
 } from './DetailPage.constants';
 
 export function DetailPage() {
@@ -17,19 +22,17 @@ export function DetailPage() {
   if (error) return <div>Error: {error}</div>;
   if (!data) return <div>{DETAIL_PAGE_LOADING}</div>;
   const { name, height, eye_color, hair_color, mass, skin_color } = data;
+  const imageSrc =
+    photoData.find((elem) => elem.name === name)?.image ?? placeholder;
 
   return (
-    <div className={DETAIL_PAGE_CLASS} data-testid={DETAIL_PAGE_TEST_ID}>
-      <h3>{name}</h3>
-      <ul>
-        <li>
-          <img
-            src={
-              photoData.find((elem) => elem.name === name)?.image ?? placeholder
-            }
-            alt="name"
-          />
-        </li>
+    <div className={`${DETAIL_PAGE_CLASS}`} data-testid={DETAIL_PAGE_TEST_ID}>
+      <h3 className={DETAIL_PAGE_TITLE_CLASS}>{name}</h3>
+      <div className={DETAIL_PAGE_IMG_CONTAINER_CLASS}>
+        <img src={imageSrc} alt={name} className={DETAIL_PAGE_IMG_CLASS} />
+      </div>
+
+      <ul className={DETAIL_PAGE_LIST_CLASS}>
         <li>
           <strong>Height:</strong> {height}
         </li>
@@ -46,10 +49,12 @@ export function DetailPage() {
           <strong>Skin Color:</strong> {skin_color}
         </li>
       </ul>
+
       <button
         onClick={() => {
           navigate(`/?${searchParams}`);
         }}
+        className={DETAIL_PAGE_BUTTON_CLASS}
       >
         {DETAIL_PAGE_BUTTON_NAME}
       </button>
