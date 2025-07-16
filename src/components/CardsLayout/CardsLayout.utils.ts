@@ -1,4 +1,4 @@
-import { type CharacterData } from '../../services/network-requests';
+import { type CharacterData } from '../../services/network-requests/network-requests';
 import type { PhotoCharacterData } from '../../App';
 
 export function mapData(

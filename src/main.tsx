@@ -9,7 +9,7 @@ import { CardsLayout } from './components/CardsLayout';
 import {
   characterDetailLoader,
   charactersLoader,
-} from './services/network-requests.ts';
+} from './services/network-requests/network-requests.ts';
 import { AboutPage } from './pages/AboutPage';
 import { DetailPage } from './pages/DetailPage';
 

@@ -1,4 +1,4 @@
-import { type CharacterData } from '../../services/network-requests';
+import { type CharacterData } from '../../services/network-requests/network-requests';
 import placeholder from '../../assets/placeholder.png';
 import {
   CARD_CONTAINER_CLASS,

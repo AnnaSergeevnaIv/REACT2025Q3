@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { getPhotoData } from './services/network-requests';
+import { getPhotoData } from './services/network-requests/network-requests';
 import { localStoragePhotoKey } from './constants/constants';
 import { ErrorBoundary } from './services/ErrorBoundary';
 import { useLocalStorage } from './hooks/useLocalStorage';

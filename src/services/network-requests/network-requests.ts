@@ -1,6 +1,9 @@
 import { type AxiosResponse } from 'axios';
-import { APIServiceCharacters, APIServiceCharactersPhoto } from './api-service';
-import type { PhotoCharacterData } from '../App';
+import {
+  APIServiceCharacters,
+  APIServiceCharactersPhoto,
+} from '../api-service';
+import type { PhotoCharacterData } from '../../App';
 import type { LoaderFunctionArgs } from 'react-router';
 
 export interface CharacterData {
@@ -21,8 +24,7 @@ export interface FullCharacterData extends CharacterData {
   mass: string;
   skin_color: string;
 }
-
-async function getCharacters(search: string, page: number) {
+export async function getCharacters(search: string, page: number) {
   try {
     const response: AxiosResponse<ResponseCharacters<CharacterData[]>> =
       await APIServiceCharacters.get(
@@ -43,7 +45,7 @@ async function getCharacters(search: string, page: number) {
   }
 }
 
-async function getCharacter(id: string) {
+export async function getCharacter(id: string) {
   try {
     const response: AxiosResponse<FullCharacterData> =
       await APIServiceCharacters.get(`/${id}`);

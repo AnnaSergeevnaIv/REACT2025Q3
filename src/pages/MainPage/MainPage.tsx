@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 import { Header } from '../../components/Header';
 import { Outlet, useLocation, useNavigate } from 'react-router';
-import { localStorageSearchKey, MAIN_PAGE_CLASS } from './MainPage.constants';
+import {
+  localStorageSearchKey,
+  MAIN_PAGE_CLASS,
+  MAIN_PAGE_TEST_ID,
+} from './MainPage.constants';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 export function MainPage() {
@@ -30,7 +34,7 @@ export function MainPage() {
   };
 
   return (
-    <div className={MAIN_PAGE_CLASS}>
+    <div className={MAIN_PAGE_CLASS} data-testid={MAIN_PAGE_TEST_ID}>
       <Header clickHandle={handleClick} value={inputValue} />
       <Outlet />
     </div>

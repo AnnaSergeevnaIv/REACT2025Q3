@@ -1,7 +1,7 @@
 import {
   type CharacterData,
   type FullCharacterData,
-} from '../services/network-requests';
+} from '../services/network-requests/network-requests';
 import { type PhotoCharacterData } from '../App';
 export const mockCharactersData: CharacterData[] = [
   {

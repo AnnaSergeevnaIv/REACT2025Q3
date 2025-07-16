@@ -1,6 +1,6 @@
 import myPhoto from '../../assets/my.jpeg';
 import schoolLogo from '../../assets/school-logo.jpg';
-import { type CharacterData } from '../../services/network-requests';
+import { type CharacterData } from '../../services/network-requests/network-requests';
 
 export const ABOUT_PAGE_CLASS = 'flex flex-wrap gap-7 justify-center mb-7';
 export const ABOUT_PAGE_BUTTON_NAME = 'Back';
