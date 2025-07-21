@@ -12,7 +12,6 @@ import {
 } from './services/network-requests/network-requests.ts';
 import { AboutPage } from './pages/AboutPage';
 import { DetailPage } from './pages/DetailPage';
-import { TestPage } from './test-page.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -41,10 +40,6 @@ export const router = createBrowserRouter([
           {
             path: '/about',
             element: <AboutPage />,
-          },
-          {
-            path: '/test',
-            element: <TestPage />,
           },
         ],
       },
