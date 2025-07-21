@@ -9,7 +9,7 @@ import {
 } from './Card.constants';
 import { getIdFromUrl } from './Card.utils';
 import type { ChangeEvent, MouseEvent } from 'react';
-import { increment, selectCheckedCards } from '../../store/counter-slice';
+import { increment, selectCheckedCharacters } from '../../store/counter-slice';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 
@@ -25,7 +25,7 @@ export function Card({
   cardClickHandle,
 }: CardProps) {
   const dispatch = useAppDispatch();
-  const checkedCards = useAppSelector(selectCheckedCards);
+  const checkedCards = useAppSelector(selectCheckedCharacters);
   const checkboxClickHandle = (event: ChangeEvent) => {
     if (event.target instanceof HTMLInputElement && event.target.checked) {
       dispatch(increment({ name, height, eye_color, image, url }));

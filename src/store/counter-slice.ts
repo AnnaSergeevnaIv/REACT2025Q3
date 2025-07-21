@@ -15,5 +15,5 @@ export const counterSlice = createSlice({
 });
 export const { increment, clear } = counterSlice.actions;
 export const selectCount = (state: RootState) => state.counter.length;
-export const selectCheckedCards = (state: RootState) => state.counter;
+export const selectCheckedCharacters = (state: RootState) => state.counter;
 export default counterSlice.reducer;
