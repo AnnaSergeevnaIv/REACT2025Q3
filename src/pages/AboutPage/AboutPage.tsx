@@ -18,7 +18,7 @@ export function AboutPage() {
         <a href="https://github.com/AnnaSergeevnaIv">
           <Card {...ABOUT_PAGE_ME_DATA}></Card>
         </a>
-        <a to="https://rs.school">
+        <a href="https://rs.school">
           <Card {...ABOUT_PAGE_SCHOOL_DATA}></Card>
         </a>
       </div>
