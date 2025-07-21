@@ -2,7 +2,17 @@ import { render, screen } from '@testing-library/react';
 import { Card, type CardProps } from './Card';
 import placeholder from '../../assets/placeholder.png';
 import userEvent from '@testing-library/user-event';
-import { CARD_TEST_ID } from './Card.constants';
+import { CARD_CHECKBOX_TEST_ID, CARD_TEST_ID } from './Card.constants';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import type { Mock } from 'vitest';
+import { mockCharactersData } from '../../test-utils/mocks';
+
+vi.mock('../../hooks/useAppSelector', () => ({
+  useAppSelector: vi.fn().mockReturnValue([]),
+}));
+vi.mock('../../hooks/useAppDispatch', () => ({
+  useAppDispatch: vi.fn().mockReturnValue([]),
+}));
 
 describe('Card component', () => {
   const baseProps: CardProps = {
@@ -12,6 +22,7 @@ describe('Card component', () => {
     url: 'www.ggg/1/',
     cardClickHandle: vi.fn(),
   };
+
   test('Card component should render image from given props', () => {
     const props: CardProps = {
       ...baseProps,
@@ -38,5 +49,23 @@ describe('Card component', () => {
     render(<Card {...baseProps} />);
     await userEvent.click(screen.getByTestId(CARD_TEST_ID));
     expect(baseProps.cardClickHandle).toHaveBeenCalledWith('1');
+  });
+
+  test('renders card with unchecked checkbox when character is not in the store', () => {
+    render(<Card {...baseProps} />);
+    expect(screen.getByTestId(CARD_CHECKBOX_TEST_ID)).not.toBeChecked();
+  });
+  test('renders card with checked checkbox when character is present in the store', () => {
+    (useAppSelector as unknown as Mock).mockReturnValue([
+      ...mockCharactersData,
+    ]);
+    render(<Card {...baseProps} />);
+    expect(screen.getByTestId(CARD_CHECKBOX_TEST_ID)).toBeChecked();
+  });
+
+  test('dispatches increment action when checkbox is clicked and checked', async () => {
+    render(<Card {...baseProps} />);
+    await userEvent.click(screen.getByTestId(CARD_CHECKBOX_TEST_ID));
+    expect(useAppSelector).toHaveBeenCalled();
   });
 });

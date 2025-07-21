@@ -17,6 +17,12 @@ vi.mock('react-router', () => {
     ),
   };
 });
+vi.mock('../../hooks/useAppSelector', () => ({
+  useAppSelector: vi.fn().mockReturnValue([]),
+}));
+vi.mock('../../hooks/useAppDispatch', () => ({
+  useAppDispatch: vi.fn().mockReturnValue([]),
+}));
 import * as reactRouter from 'react-router';
 
 describe('AboutPage component', () => {

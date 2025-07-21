@@ -11,7 +11,8 @@ import {
   CARDS_LAYOUT_BUTTON_PREV_NAME,
   CARDS_LAYOUT_LOADING,
 } from './CardsLayout.constants';
-
+import { CARD_TEST_ID } from '../Card';
+import { PhotoContext } from '../../services/PhotoContext';
 const mocks = {
   navigate: vi.fn(),
 };
@@ -26,9 +27,14 @@ vi.mock('react-router', async () => {
     useSearchParams: () => [new URLSearchParams({ page: '2' }), vi.fn()],
   };
 });
+vi.mock('../../hooks/useAppSelector', () => ({
+  useAppSelector: vi.fn(),
+}));
+vi.mock('../../hooks/useAppDispatch', () => ({
+  useAppDispatch: vi.fn(),
+}));
 import * as reactRouter from 'react-router';
-import { CARD_TEST_ID } from '../Card';
-import { PhotoContext } from '../../services/PhotoContext';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 describe('CardsLayout component', () => {
   beforeEach(() => {
@@ -40,6 +46,7 @@ describe('CardsLayout component', () => {
       },
       error: undefined,
     });
+    (useAppSelector as unknown as Mock).mockReturnValue([]);
     mocks.navigate.mockClear();
     localStorage.clear();
   });
