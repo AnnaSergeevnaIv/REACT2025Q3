@@ -64,7 +64,7 @@ export function Card({
         alt={`${name} image`}
         className={CARD_IMAGE_CLASS}
       />
-      <h3 className="font-bold text-white">{name}</h3>
+      <h3>{name}</h3>
       <p>{`Height: ${height}`}</p>
       <p>{`Eye color: ${eye_color}`}</p>
     </div>

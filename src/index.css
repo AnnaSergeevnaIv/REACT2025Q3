@@ -1,36 +1,55 @@
+@import 'tailwindcss';
+
+
+body {
+  /* width: 100%; */
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+.light {
+  --background-color: white;
+  --text-color: black;
+  --button-background-color: rgba(255, 183, 0, 0.772);
+  --border-color: rgb(23, 23, 21);
+}
+
+.dark {
+  --background-color: black;
+  --button-background-color: #1a1a1a;
+  --text-color: white;
+  --border-color: yellow;
+}
+
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.main-page{
+  width: 100%;
+  max-width: 1280px;
+}
+
 :root {
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  text-align: center;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
-}
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  height: 100%;
-  display: flex;
-  place-items: center;
-  background-color: black;
 }
 
 h1 {
@@ -45,12 +64,12 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--button-background-color);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--border-color);
 }
 button:focus,
 button:focus-visible {
@@ -62,44 +81,17 @@ button:disabled {
   pointer-events: none;
 }
 input {
-  color: white;
   font-size: 1.5rem;
-  border: 1px solid white;
+  border: 1px solid var(--text-color);
   border-radius: 0.5rem;
   padding: 0 6px;
 }
 
 h3 {
   font-size: 1.2rem;
-  color: white;
   font-weight: 600;
 }
-p, li {
-  color: white;
-}
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
-.test {
-  column-count: 3;
-  column-gap: 1rem;
-  width: 100%;
-}
-
-.test img {
-  width: 100%;
-  height: auto;
-  display: block;
-  margin-bottom: 1rem;
+.card:hover {
+  background-color: var(--button-background-color);
 }

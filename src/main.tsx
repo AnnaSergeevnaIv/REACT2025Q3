@@ -45,11 +45,11 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: '*',
+        element: <NoMatch />,
+      },
     ],
-  },
-  {
-    path: '*',
-    element: <NoMatch />,
   },
 ]);
 

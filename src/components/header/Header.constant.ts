@@ -4,3 +4,5 @@ export const HEADER_IMAGE_CLASS = 'size-50 mr-auto';
 export const HEADER_INPUT_CLASS = 'h-100%';
 export const HEADER_SEARCH_BUTTON_NAME = 'Search';
 export const HEADER_ABOUT_BUTTON_NAME = 'About';
+export const HEADER_THEME_DARK_BUTTON_NAME = 'Dark theme';
+export const HEADER_THEME_LIGHT_BUTTON_NAME = 'Light theme';
