@@ -1,10 +1,10 @@
 import {
   stateCleared,
-  selectCount,
   selectCheckedCharacters,
 } from '../../store/character-slice';
 import {
   FOOTER_CLASS,
+  FOOTER_DOWNLOAD_BUTTON_NAME,
   FOOTER_TEST_ID,
   FOOTER_TEXT_CLASS,
   FOOTER_UNCHECK_BUTTON_NAME,
@@ -13,8 +13,8 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { downloadCSV } from '../../services/csv-export';
 export function Footer() {
-  const checkedCount = useAppSelector(selectCount);
   const checkedCharacters = useAppSelector(selectCheckedCharacters);
+  const checkedCount = checkedCharacters.length;
   const dispatch = useAppDispatch();
   const unselectClickHandle = () => {
     dispatch(stateCleared());
@@ -32,7 +32,7 @@ export function Footer() {
           downloadCSV(checkedCharacters, checkedCount);
         }}
       >
-        Download
+        {FOOTER_DOWNLOAD_BUTTON_NAME}
       </button>
     </footer>
   ) : (
