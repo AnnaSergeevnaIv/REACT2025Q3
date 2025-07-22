@@ -9,7 +9,11 @@ import {
 } from './Card.constants';
 import { getIdFromUrl } from './Card.utils';
 import type { ChangeEvent, MouseEvent } from 'react';
-import { increment, selectCheckedCharacters } from '../../store/counter-slice';
+import {
+  characterAdded,
+  characterRemoved,
+  selectCheckedCharacters,
+} from '../../store/character-slice';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 
@@ -27,8 +31,11 @@ export function Card({
   const dispatch = useAppDispatch();
   const checkedCards = useAppSelector(selectCheckedCharacters);
   const checkboxClickHandle = (event: ChangeEvent) => {
-    if (event.target instanceof HTMLInputElement && event.target.checked) {
-      dispatch(increment({ name, height, eye_color, image, url }));
+    if (!(event.target instanceof HTMLInputElement)) return;
+    if (event.target.checked) {
+      dispatch(characterAdded({ name, height, eye_color, image, url }));
+    } else {
+      dispatch(characterRemoved({ name, height, eye_color, image, url }));
     }
   };
   const cardContainerClickHandle = (event: MouseEvent) => {

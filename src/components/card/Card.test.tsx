@@ -6,15 +6,16 @@ import { CARD_CHECKBOX_TEST_ID, CARD_TEST_ID } from './Card.constants';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import type { Mock } from 'vitest';
 import { mockCharactersData } from '../../test-utils/mocks';
-
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 vi.mock('../../hooks/useAppSelector', () => ({
   useAppSelector: vi.fn().mockReturnValue([]),
 }));
 vi.mock('../../hooks/useAppDispatch', () => ({
-  useAppDispatch: vi.fn().mockReturnValue([]),
+  useAppDispatch: vi.fn(),
 }));
 
 describe('Card component', () => {
+  const mockDispatch = vi.fn();
   const baseProps: CardProps = {
     name: 'Darth Vader',
     height: 202,
@@ -22,6 +23,13 @@ describe('Card component', () => {
     url: 'www.ggg/1/',
     cardClickHandle: vi.fn(),
   };
+  const { name, height, eye_color, url, image } = baseProps;
+  const expectedPayload = { name, height, eye_color, url, image };
+
+  beforeEach(() => {
+    (useAppDispatch as unknown as Mock).mockReturnValue(mockDispatch);
+    (useAppSelector as unknown as Mock).mockReturnValue([]);
+  });
 
   test('Card component should render image from given props', () => {
     const props: CardProps = {
@@ -63,9 +71,24 @@ describe('Card component', () => {
     expect(screen.getByTestId(CARD_CHECKBOX_TEST_ID)).toBeChecked();
   });
 
-  test('dispatches increment action when checkbox is clicked and checked', async () => {
+  test('dispatches charactersAdded action when checkbox is clicked and checked', async () => {
     render(<Card {...baseProps} />);
     await userEvent.click(screen.getByTestId(CARD_CHECKBOX_TEST_ID));
-    expect(useAppSelector).toHaveBeenCalled();
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'counter/characterAdded',
+      payload: expectedPayload,
+    });
+  });
+
+  test('dispatches charactersRemoves action when checkbox is clicked and checked', async () => {
+    (useAppSelector as unknown as Mock).mockReturnValue([
+      ...mockCharactersData,
+    ]);
+    render(<Card {...baseProps} />);
+    await userEvent.click(screen.getByTestId(CARD_CHECKBOX_TEST_ID));
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: 'counter/characterRemoved',
+      payload: expectedPayload,
+    });
   });
 });

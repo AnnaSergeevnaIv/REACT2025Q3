@@ -15,6 +15,7 @@ import {
 import { useContext, useMemo } from 'react';
 import { PhotoContext } from '../../services/PhotoContext';
 import { mapData } from './CardsLayout.utils';
+import { Footer } from '../Footer/Footer';
 
 export function CardsLayout() {
   const { data, error } = useRouteLoaderData('cards-layout');
@@ -76,6 +77,7 @@ export function CardsLayout() {
           {CARDS_LAYOUT_BUTTON_NEXT_NAME}
         </button>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -14,7 +14,6 @@ import { AboutPage } from './pages/AboutPage';
 import { DetailPage } from './pages/DetailPage';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
-import { Footer } from './components/Footer/Footer.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -32,10 +31,6 @@ export const router = createBrowserRouter([
             id: 'cards-layout',
             element: <CardsLayout />,
             children: [
-              {
-                path: '',
-                element: <Footer />,
-              },
               {
                 path: 'character/:id',
                 loader: characterDetailLoader,
