@@ -3,6 +3,8 @@ import * as network from './services/network-requests/network-requests';
 import App from './App';
 import { mockPhotoCharacterData } from './test-utils/mocks';
 import { localStoragePhotoKey } from './constants/constants';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 vi.mock('react-router', () => {
   const original = vi.importActual('react-router');
   return {
@@ -10,6 +12,12 @@ vi.mock('react-router', () => {
     Outlet: () => <div data-testid="mock-outlet" />,
   };
 });
+vi.mock('../../hooks/useAppSelector', () => ({
+  useAppSelector: vi.fn(),
+}));
+vi.mock('../../hooks/useAppDispatch', () => ({
+  useAppDispatch: vi.fn(),
+}));
 
 describe('App component', () => {
   beforeEach(() => {
@@ -18,8 +26,12 @@ describe('App component', () => {
   });
 
   test('renders App and displays initial content', () => {
-    render(<App />);
-    expect(screen.getByTestId('mock-outlet')).toBeInTheDocument();
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+    expect(screen.getByTestId('app-container')).toBeInTheDocument();
   });
 
   test('calls getPhotoData on mount if no data in localStorage', async () => {
@@ -27,7 +39,11 @@ describe('App component', () => {
       .spyOn(network, 'getPhotoData')
       .mockResolvedValue(mockPhotoCharacterData);
 
-    render(<App />);
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
     await waitFor(() => {
       expect(getData).toHaveBeenCalled();
     });
@@ -42,7 +58,11 @@ describe('App component', () => {
       localStoragePhotoKey,
       JSON.stringify(mockPhotoCharacterData)
     );
-    render(<App />);
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
     expect(getData).not.toHaveBeenCalled();
   });
 });

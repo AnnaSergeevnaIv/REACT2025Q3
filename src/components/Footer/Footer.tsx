@@ -1,7 +1,7 @@
 import {
   stateCleared,
   selectCheckedCharacters,
-} from '../../store/character-slice';
+} from '../../store/characterSlice';
 import {
   FOOTER_CLASS,
   FOOTER_DOWNLOAD_BUTTON_NAME,

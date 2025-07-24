@@ -12,7 +12,6 @@ import {
   CARDS_LAYOUT_LOADING,
 } from './CardsLayout.constants';
 import { CARD_TEST_ID } from '../Card';
-import { PhotoContext } from '../../services/PhotoContext';
 const mocks = {
   navigate: vi.fn(),
 };
@@ -119,11 +118,8 @@ describe('CardsLayout component', () => {
   });
 
   test('renders cards with images from PhotoContext', () => {
-    render(
-      <PhotoContext.Provider value={mockPhotoCharacterData}>
-        <CardsLayout />
-      </PhotoContext.Provider>
-    );
+    (useAppSelector as unknown as Mock).mockReturnValue(mockPhotoCharacterData);
+    render(<CardsLayout />);
     expect(
       screen.getByAltText(`${mockPhotoCharacterData[0].name} image`)
     ).toHaveAttribute('src', mockPhotoCharacterData[0].image);

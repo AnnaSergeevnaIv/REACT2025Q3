@@ -12,15 +12,16 @@ import {
   useRouteLoaderData,
   useSearchParams,
 } from 'react-router';
-import { useContext, useMemo } from 'react';
-import { PhotoContext } from '../../services/PhotoContext';
+import { useMemo } from 'react';
 import { mapData } from './CardsLayout.utils';
 import { Footer } from '../Footer/Footer';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { selectPhotos } from '../../store/photosSlice';
 
 export function CardsLayout() {
   const { data, error } = useRouteLoaderData('cards-layout');
   const navigate = useNavigate();
-  const photoData = useContext(PhotoContext);
+  const photoData = useAppSelector(selectPhotos);
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') || '1');
   const search = searchParams.get('search') || '';

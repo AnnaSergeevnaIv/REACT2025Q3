@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import { getPhotoData } from './services/network-requests/network-requests';
-import { localStoragePhotoKey } from './constants/constants';
 import { ErrorBoundary } from './services/ErrorBoundary';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { Outlet } from 'react-router';
-import { PhotoContext } from './services/PhotoContext';
 import { ThemeContext, type Theme } from './services/ThemeContext';
+import { useAppSelector } from './hooks/useAppSelector';
+import { selectPhotos, selectPhotoStatus } from './store/photosSlice';
+import { useAppDispatch } from './hooks/useAppDispatch';
+import { photosLoaded } from './store/photosSlice';
 
 export interface PhotoCharacterData {
   name: string;
@@ -13,31 +15,28 @@ export interface PhotoCharacterData {
 }
 
 export default function App() {
-  const [photoData, setPhotoData] = useLocalStorage<PhotoCharacterData[]>(
-    localStoragePhotoKey,
-    []
-  );
+  const photoData = useAppSelector(selectPhotos);
+  const photoDataStatus = useAppSelector(selectPhotoStatus);
+  const dispatch = useAppDispatch();
+
   const [theme, setTheme] = useLocalStorage<Theme>('theme', 'dark');
   useEffect(() => {
     async function getPhotos() {
-      if (photoData.length > 0) {
-        return;
+      if (photoDataStatus === 'idle') {
+        const photoDataFromAPI = await getPhotoData();
+        dispatch(photosLoaded(photoDataFromAPI));
       }
-      const photoDataFromAPI = await getPhotoData();
-      setPhotoData(photoDataFromAPI);
     }
     getPhotos();
-  }, [photoData]);
+  }, [photoData, dispatch, photoDataStatus]);
 
   return (
     <ErrorBoundary
       fallback={<h1>Something went wrong. Please refresh the page </h1>}
     >
       <ThemeContext.Provider value={{ theme, setTheme }}>
-        <div className={`${theme} app-container`}>
-          <PhotoContext.Provider value={photoData}>
-            <Outlet />
-          </PhotoContext.Provider>
+        <div className={`${theme} app-container`} data-testId="app-container">
+          <Outlet />
         </div>
       </ThemeContext.Provider>
     </ErrorBoundary>

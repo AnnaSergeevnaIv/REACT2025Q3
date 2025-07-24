@@ -13,7 +13,7 @@ import {
   characterAdded,
   characterRemoved,
   selectCheckedCharacters,
-} from '../../store/character-slice';
+} from '../../store/characterSlice';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 

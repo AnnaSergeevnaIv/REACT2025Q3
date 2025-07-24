@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from './character-slice';
+import characterReducer from './characterSlice';
+import photosReducer from './photosSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    characters: characterReducer,
+    photos: photosReducer,
   },
 });
 
