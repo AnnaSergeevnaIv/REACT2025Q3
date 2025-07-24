@@ -1,6 +1,4 @@
-import { useContext } from 'react';
 import { useNavigate, useRouteLoaderData, useSearchParams } from 'react-router';
-import { PhotoContext } from '../../services/PhotoContext';
 import placeholder from '../../assets/placeholder.png';
 import {
   DETAIL_PAGE_BUTTON_CLASS,
@@ -13,17 +11,19 @@ import {
   DETAIL_PAGE_TEST_ID,
   DETAIL_PAGE_TITLE_CLASS,
 } from './DetailPage.constants';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { selectPhotoById } from '../../store/photosSlice';
 
 export function DetailPage() {
   const { data, error } = useRouteLoaderData('detail');
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const photoData = useContext(PhotoContext);
+  const photo = useAppSelector((state) => selectPhotoById(state, name));
   if (error) return <div>Error: {error}</div>;
   if (!data) return <div>{DETAIL_PAGE_LOADING}</div>;
   const { name, height, eye_color, hair_color, mass, skin_color } = data;
-  const imageSrc =
-    photoData.find((elem) => elem.name === name)?.image ?? placeholder;
+
+  const imageSrc = photo?.image ?? placeholder;
 
   return (
     <div className={`${DETAIL_PAGE_CLASS}`} data-testid={DETAIL_PAGE_TEST_ID}>

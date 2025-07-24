@@ -1,9 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { CardsLayout } from './CardsLayout';
-import {
-  mockCharactersData,
-  mockPhotoCharacterData,
-} from '../../test-utils/mocks';
+import { mockCharactersData } from '../../test-utils/mocks';
 import type { Mock } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import {
@@ -115,13 +112,5 @@ describe('CardsLayout component', () => {
 
     render(<CardsLayout />);
     expect(screen.getByText(`Error: ${errorMessage}`)).toBeInTheDocument();
-  });
-
-  test('renders cards with images from PhotoContext', () => {
-    (useAppSelector as unknown as Mock).mockReturnValue(mockPhotoCharacterData);
-    render(<CardsLayout />);
-    expect(
-      screen.getByAltText(`${mockPhotoCharacterData[0].name} image`)
-    ).toHaveAttribute('src', mockPhotoCharacterData[0].image);
   });
 });

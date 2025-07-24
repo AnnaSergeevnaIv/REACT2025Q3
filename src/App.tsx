@@ -6,7 +6,7 @@ import { ThemeContext, type Theme } from './services/ThemeContext';
 import { useAppSelector } from './hooks/useAppSelector';
 import {
   fetchPhotos,
-  selectPhotos,
+  selectAllPhotos,
   selectPhotoStatus,
 } from './store/photosSlice';
 import { useAppDispatch } from './hooks/useAppDispatch';
@@ -17,7 +17,7 @@ export interface PhotoCharacterData {
 }
 
 export default function App() {
-  const photoData = useAppSelector(selectPhotos);
+  const photoData = useAppSelector(selectAllPhotos);
   const photoDataStatus = useAppSelector(selectPhotoStatus);
   const dispatch = useAppDispatch();
 

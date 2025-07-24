@@ -31,7 +31,8 @@ describe('Card component', () => {
     (useAppSelector as unknown as Mock).mockReturnValue([]);
   });
 
-  test('Card component should render image from given props', () => {
+  test('Card component should render image from given props if photo is undefined', () => {
+    (useAppSelector as unknown as Mock).mockReturnValue(undefined);
     const props: CardProps = {
       ...baseProps,
       image:
@@ -46,7 +47,10 @@ describe('Card component', () => {
     );
   });
 
-  test('Card component should render placeholder image when no image prop is provided', () => {
+  test('Card component should render placeholder image when photo and image from props are undefined', () => {
+    (useAppSelector as unknown as Mock)
+      .mockReturnValueOnce(undefined)
+      .mockReturnValueOnce([]);
     render(<Card {...baseProps} />);
     expect(
       screen.getByRole('img', { name: `${baseProps.name} image` })

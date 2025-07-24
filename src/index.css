@@ -31,9 +31,10 @@ body {
   color: var(--text-color);
 }
 
-.main-page{
+.main-page {
   width: 100%;
   max-width: 1280px;
+  margin-bottom: 2.5rem;
 }
 
 :root {

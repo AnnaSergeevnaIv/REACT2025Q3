@@ -16,6 +16,7 @@ import {
 } from '../../store/characterSlice';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { selectPhotoById } from '../../store/photosSlice';
 
 export interface CardProps extends CharacterData {
   cardClickHandle: (id: string) => void;
@@ -29,13 +30,20 @@ export function Card({
   cardClickHandle,
 }: CardProps) {
   const dispatch = useAppDispatch();
+  const photo = useAppSelector((state) => selectPhotoById(state, name));
+  const photoImage = photo ? photo.image : image ? image : placeholder;
+
   const checkedCards = useAppSelector(selectCheckedCharacters);
   const checkboxClickHandle = (event: ChangeEvent) => {
     if (!(event.target instanceof HTMLInputElement)) return;
     if (event.target.checked) {
-      dispatch(characterAdded({ name, height, eye_color, image, url }));
+      dispatch(
+        characterAdded({ name, height, eye_color, url, image: photo.image })
+      );
     } else {
-      dispatch(characterRemoved({ name, height, eye_color, image, url }));
+      dispatch(
+        characterRemoved({ name, height, eye_color, url, image: photo.image })
+      );
     }
   };
   const cardContainerClickHandle = (event: MouseEvent) => {
@@ -52,15 +60,19 @@ export function Card({
       data-testid={CARD_TEST_ID}
       onClick={cardContainerClickHandle}
     >
-      <input
-        type="checkbox"
-        onChange={checkboxClickHandle}
-        className={CARD_CHECKBOX_CLASS}
-        checked={isCardChecked()}
-        data-testid={CARD_CHECKBOX_TEST_ID}
-      />
+      {image ? (
+        <></>
+      ) : (
+        <input
+          type="checkbox"
+          onChange={checkboxClickHandle}
+          className={CARD_CHECKBOX_CLASS}
+          checked={isCardChecked()}
+          data-testid={CARD_CHECKBOX_TEST_ID}
+        />
+      )}
       <img
-        src={image ? image : placeholder}
+        src={photoImage}
         alt={`${name} image`}
         className={CARD_IMAGE_CLASS}
       />

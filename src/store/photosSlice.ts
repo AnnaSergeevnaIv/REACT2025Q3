@@ -6,14 +6,17 @@ import {
 import type { PhotoCharacterData } from '../App';
 import type { RootState } from './store';
 import { getPhotoData } from '../services/network-requests/network-requests';
-interface PhotosState {
-  photos: PhotoCharacterData[];
+import { createEntityAdapter, type EntityState } from '@reduxjs/toolkit';
+
+type PhotoCharacterDataWithId = { id: string; image: string };
+interface PhotosState extends EntityState<PhotoCharacterDataWithId, string> {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
 }
-const initialState: PhotosState = {
-  photos: [],
+
+const photoAdapter = createEntityAdapter<PhotoCharacterDataWithId>();
+const initialState: PhotosState = photoAdapter.getInitialState({
   status: 'idle',
-};
+});
 
 const photosSlice = createSlice({
   name: 'photos',
@@ -28,7 +31,10 @@ const photosSlice = createSlice({
         fetchPhotos.fulfilled,
         (state, action: PayloadAction<PhotoCharacterData[]>) => {
           state.status = 'succeeded';
-          state.photos = action.payload;
+          const photosWithId: PhotoCharacterDataWithId[] = action.payload.map(
+            (photo) => ({ image: photo.image, id: photo.name })
+          );
+          photoAdapter.setAll(state, photosWithId);
         }
       )
       .addCase(fetchPhotos.rejected, (state) => {
@@ -43,4 +49,6 @@ export const fetchPhotos = createAsyncThunk('photos/fetchPhotos', async () => {
 
 export default photosSlice.reducer;
 export const selectPhotoStatus = (state: RootState) => state.photos.status;
-export const selectPhotos = (state: RootState) => state.photos.photos;
+// export const selectPhotos = (state: RootState) => state.photos.photos;
+export const { selectAll: selectAllPhotos, selectById: selectPhotoById } =
+  photoAdapter.getSelectors((state: RootState) => state.photos);
