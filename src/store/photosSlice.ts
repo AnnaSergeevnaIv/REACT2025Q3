@@ -49,6 +49,5 @@ export const fetchPhotos = createAsyncThunk('photos/fetchPhotos', async () => {
 
 export default photosSlice.reducer;
 export const selectPhotoStatus = (state: RootState) => state.photos.status;
-// export const selectPhotos = (state: RootState) => state.photos.photos;
 export const { selectAll: selectAllPhotos, selectById: selectPhotoById } =
   photoAdapter.getSelectors((state: RootState) => state.photos);

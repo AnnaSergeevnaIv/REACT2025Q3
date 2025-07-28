@@ -18,11 +18,12 @@ export function DetailPage() {
   const { data, error } = useRouteLoaderData('detail');
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const photo = useAppSelector((state) => selectPhotoById(state, name));
+  const photo = useAppSelector((state) => selectPhotoById(state, data?.name));
+
   if (error) return <div>Error: {error}</div>;
   if (!data) return <div>{DETAIL_PAGE_LOADING}</div>;
-  const { name, height, eye_color, hair_color, mass, skin_color } = data;
 
+  const { name, height, eye_color, hair_color, mass, skin_color } = data;
   const imageSrc = photo?.image ?? placeholder;
 
   return (
