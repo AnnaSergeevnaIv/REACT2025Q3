@@ -1,16 +1,16 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { type CharacterData } from '../services/network-requests/network-requests';
+import { type FullCharacterData } from '../services/network-requests/network-requests';
 import type { RootState } from './store';
 
-const initialState: CharacterData[] = [];
+const initialState: FullCharacterData[] = [];
 export const charactersSlice = createSlice({
   name: 'counter',
   initialState,
   reducers: {
-    characterAdded: (state, action: PayloadAction<CharacterData>) => {
+    characterAdded: (state, action: PayloadAction<FullCharacterData>) => {
       state.push(action.payload);
     },
-    characterRemoved: (state, action: PayloadAction<CharacterData>) => {
+    characterRemoved: (state, action: PayloadAction<FullCharacterData>) => {
       const index = state.findIndex(
         (character) => character.name === action.payload.name
       );

@@ -5,3 +5,4 @@ export const CARDS_LAYOUT_BUTTON_CONTAINER_CLASS =
 export const CARDS_LAYOUT_BUTTON_NEXT_NAME = 'Next';
 export const CARDS_LAYOUT_BUTTON_PREV_NAME = 'Prev';
 export const CARDS_LAYOUT_LOADING = 'Loading...';
+export const CARDS_LAYOUT_ERROR = 'Something went wrong';

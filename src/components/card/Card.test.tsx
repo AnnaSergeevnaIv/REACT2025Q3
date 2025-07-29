@@ -13,6 +13,11 @@ vi.mock('../../hooks/useAppSelector', () => ({
 vi.mock('../../hooks/useAppDispatch', () => ({
   useAppDispatch: vi.fn(),
 }));
+vi.mock('../../services/api', () => ({
+  useGetTransformedPhotosQuery: vi.fn().mockReturnValue({
+    data: undefined,
+  }),
+}));
 
 describe('Card component', () => {
   const mockDispatch = vi.fn();
@@ -22,9 +27,21 @@ describe('Card component', () => {
     eye_color: 'yellow',
     url: 'www.ggg/1/',
     cardClickHandle: vi.fn(),
+    hair_color: '',
+    mass: '',
+    skin_color: '',
   };
-  const { name, height, eye_color, url, image } = baseProps;
-  const expectedPayload = { name, height, eye_color, url, image };
+  const { name, height, eye_color, url } = baseProps;
+  const expectedPayload = {
+    name,
+    height,
+    eye_color,
+    url,
+    image: placeholder,
+    hair_color: '',
+    mass: '',
+    skin_color: '',
+  };
 
   beforeEach(() => {
     (useAppDispatch as unknown as Mock).mockReturnValue(mockDispatch);
@@ -32,7 +49,6 @@ describe('Card component', () => {
   });
 
   test('Card component should render image from given props if photo is undefined', () => {
-    (useAppSelector as unknown as Mock).mockReturnValue(undefined);
     const props: CardProps = {
       ...baseProps,
       image:
@@ -48,9 +64,6 @@ describe('Card component', () => {
   });
 
   test('Card component should render placeholder image when photo and image from props are undefined', () => {
-    (useAppSelector as unknown as Mock)
-      .mockReturnValueOnce(undefined)
-      .mockReturnValueOnce([]);
     render(<Card {...baseProps} />);
     expect(
       screen.getByRole('img', { name: `${baseProps.name} image` })
@@ -83,10 +96,15 @@ describe('Card component', () => {
       payload: expectedPayload,
     });
   });
+  test('calls cardClickHandle when card (not checkbox) is clicked', async () => {
+    render(<Card {...baseProps} />);
+    await userEvent.click(screen.getByTestId(CARD_TEST_ID));
+    expect(baseProps.cardClickHandle).toHaveBeenCalledWith('1');
+  });
 
-  test('dispatches charactersRemoves action when checkbox is clicked and checked', async () => {
-    (useAppSelector as unknown as Mock).mockReturnValue([
-      ...mockCharactersData,
+  test('dispatches characterRemoved action when checkbox is clicked and checked', async () => {
+    (useAppSelector as unknown as Mock).mockReturnValueOnce([
+      mockCharactersData[0],
     ]);
     render(<Card {...baseProps} />);
     await userEvent.click(screen.getByTestId(CARD_CHECKBOX_TEST_ID));

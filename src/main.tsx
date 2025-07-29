@@ -8,7 +8,7 @@ import { MainPage } from './pages/MainPage';
 import { CardsLayout } from './components/CardsLayout';
 import {
   characterDetailLoader,
-  charactersLoader,
+  // charactersLoader,
 } from './services/network-requests/network-requests.ts';
 import { AboutPage } from './pages/AboutPage';
 import { DetailPage } from './pages/DetailPage';
@@ -27,7 +27,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: '',
-            loader: charactersLoader,
+            // loader: charactersLoader,
             id: 'cards-layout',
             element: <CardsLayout />,
             children: [

@@ -3,32 +3,23 @@ import {
   CARDS_LAYOUT_BUTTON_NEXT_NAME,
   CARDS_LAYOUT_BUTTON_PREV_NAME,
   CARDS_LAYOUT_CONTAINER_CLASS,
+  CARDS_LAYOUT_ERROR,
   CARDS_LAYOUT_LOADING,
 } from './CardsLayout.constants';
 import { Card } from '../Card';
-import {
-  Outlet,
-  useNavigate,
-  useRouteLoaderData,
-  useSearchParams,
-} from 'react-router';
+import { Outlet, useNavigate, useSearchParams } from 'react-router';
 import { Footer } from '../Footer/Footer';
-import { type CharacterData } from '../../services/network-requests/network-requests';
+import { useGetCharactersQuery } from '../../services/api';
 
 export function CardsLayout() {
-  const loaderData = useRouteLoaderData('cards-layout') as {
-    error?: string;
-    data?: {
-      results: CharacterData[];
-      previous?: string;
-      next?: string;
-    };
-  };
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') || '1');
   const search = searchParams.get('search') || '';
-
+  const { data, isLoading, isError } = useGetCharactersQuery({
+    search,
+    page,
+  });
   const handlePagination = (next: boolean) => {
     const nextPage = next ? page + 1 : page - 1;
     const params = new URLSearchParams();
@@ -42,13 +33,14 @@ export function CardsLayout() {
     navigate(`character/${id}?${searchParams.toString()}`);
   };
 
-  if (loaderData.error) return <div>Error: {loaderData.error}</div>;
-  if (!loaderData.data) return <div>{CARDS_LAYOUT_LOADING}</div>;
+  if (isError) return <div>{CARDS_LAYOUT_ERROR}</div>;
+  if (isLoading) return <div>{CARDS_LAYOUT_LOADING}</div>;
+  if (!data) return <div>No data</div>;
   return (
     <div>
       <div className="flex">
         <div className={CARDS_LAYOUT_CONTAINER_CLASS} id="cards-layout">
-          {loaderData.data.results.map((character) => (
+          {data.results.map((character) => (
             <Card
               {...character}
               cardClickHandle={cardClickHandle}
@@ -64,7 +56,7 @@ export function CardsLayout() {
           onClick={() => {
             handlePagination(false);
           }}
-          disabled={!loaderData.data.previous}
+          disabled={!data.previous}
         >
           {CARDS_LAYOUT_BUTTON_PREV_NAME}
         </button>
@@ -72,7 +64,7 @@ export function CardsLayout() {
           onClick={() => {
             handlePagination(true);
           }}
-          disabled={!loaderData.data.next}
+          disabled={!data.next}
         >
           {CARDS_LAYOUT_BUTTON_NEXT_NAME}
         </button>

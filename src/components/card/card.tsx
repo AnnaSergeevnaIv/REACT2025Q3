@@ -1,4 +1,3 @@
-import { type CharacterData } from '../../services/network-requests/network-requests';
 import placeholder from '../../assets/placeholder.png';
 import {
   CARD_CHECKBOX_CLASS,
@@ -16,33 +15,48 @@ import {
 } from '../../store/characterSlice';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { selectPhotoById } from '../../store/photosSlice';
+import { useGetTransformedPhotosQuery } from '../../services/api';
+import { type FullCharacterData } from '../../services/network-requests/network-requests';
 
-export interface CardProps extends CharacterData {
+export interface CardProps extends FullCharacterData {
   cardClickHandle: (id: string) => void;
 }
-export function Card({
-  name,
-  height,
-  eye_color,
-  image,
-  url,
-  cardClickHandle,
-}: CardProps) {
+export function Card(props: CardProps) {
+  const { name, height, eye_color, image, url, cardClickHandle } = props;
   const dispatch = useAppDispatch();
-  const photo = useAppSelector((state) => selectPhotoById(state, name));
-  const photoImage = photo ? photo.image : image ? image : placeholder;
+  const { data } = useGetTransformedPhotosQuery(undefined);
 
   const checkedCards = useAppSelector(selectCheckedCharacters);
+  const photoImage =
+    data && data[name]?.image ? data[name].image : image ? image : placeholder;
+
   const checkboxClickHandle = (event: ChangeEvent) => {
     if (!(event.target instanceof HTMLInputElement)) return;
     if (event.target.checked) {
       dispatch(
-        characterAdded({ name, height, eye_color, url, image: photo.image })
+        characterAdded({
+          name,
+          height,
+          eye_color,
+          url,
+          image: photoImage,
+          hair_color: props.hair_color,
+          mass: props.mass,
+          skin_color: props.skin_color,
+        })
       );
     } else {
       dispatch(
-        characterRemoved({ name, height, eye_color, url, image: photo.image })
+        characterRemoved({
+          name,
+          height,
+          eye_color,
+          url,
+          image: photoImage,
+          hair_color: props.hair_color,
+          mass: props.mass,
+          skin_color: props.skin_color,
+        })
       );
     }
   };

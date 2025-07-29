@@ -24,6 +24,8 @@ vi.mock('../../hooks/useAppDispatch', () => ({
   useAppDispatch: vi.fn().mockReturnValue([]),
 }));
 import * as reactRouter from 'react-router';
+import { store } from '../../store/store';
+import { Provider } from 'react-redux';
 
 describe('AboutPage component', () => {
   afterEach(() => {
@@ -31,13 +33,21 @@ describe('AboutPage component', () => {
   });
 
   test('should render the About page correctly', () => {
-    render(<AboutPage />);
+    render(
+      <Provider store={store}>
+        <AboutPage />
+      </Provider>
+    );
     expect(screen.getByTestId(ABOUT_PAGE_TEST_ID)).toBeInTheDocument();
   });
   test('should navigate back when the Back button is clicked', async () => {
     const mockNavigate = vi.fn();
     (reactRouter.useNavigate as Mock).mockReturnValue(mockNavigate);
-    render(<AboutPage />);
+    render(
+      <Provider store={store}>
+        <AboutPage />
+      </Provider>
+    );
     await userEvent.click(
       screen.getByRole('button', { name: ABOUT_PAGE_BUTTON_NAME })
     );

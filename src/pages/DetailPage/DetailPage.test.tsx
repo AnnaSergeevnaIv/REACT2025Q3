@@ -1,9 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import {
-  mockFullCharacterData,
-  mockImage,
-  mockPhotoCharacterData,
-} from '../../test-utils/mocks';
+import { mockFullCharacterData, mockImage } from '../../test-utils/mocks';
 import type { Mock } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import placeholder from '../../assets/placeholder.png';
@@ -14,6 +10,15 @@ const mocks = {
 vi.mock('../../hooks/useAppSelector', () => ({
   useAppSelector: vi.fn().mockReturnValue([]),
 }));
+vi.mock(import('../../services/api'), async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useGetTransformedPhotosQuery: vi.fn().mockReturnValue({
+      data: undefined,
+    }),
+  };
+});
 
 vi.mock('react-router', async () => {
   const original =
@@ -35,8 +40,10 @@ import {
   DETAIL_PAGE_TEST_ERROR,
   DETAIL_PAGE_TEST_ID,
 } from './DetailPage.constants';
-import { PhotoContext } from '../../services/PhotoContext';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
+import { useGetTransformedPhotosQuery } from '../../services/api';
 
 describe('DetailPage component', () => {
   beforeEach(() => {
@@ -46,12 +53,20 @@ describe('DetailPage component', () => {
     });
   });
   test('renders detail page correctly with mock data', () => {
-    render(<DetailPage />);
+    render(
+      <Provider store={store}>
+        <DetailPage />
+      </Provider>
+    );
     expect(screen.getByTestId(DETAIL_PAGE_TEST_ID)).toBeInTheDocument();
   });
 
   test('navigates back to the list page on Back button click', async () => {
-    render(<DetailPage />);
+    render(
+      <Provider store={store}>
+        <DetailPage />
+      </Provider>
+    );
     await userEvent.click(
       screen.getByRole('button', { name: DETAIL_PAGE_BUTTON_NAME })
     );
@@ -65,7 +80,11 @@ describe('DetailPage component', () => {
       data: undefined,
       error: undefined,
     });
-    render(<DetailPage />);
+    render(
+      <Provider store={store}>
+        <DetailPage />
+      </Provider>
+    );
     expect(screen.getByText(DETAIL_PAGE_LOADING)).toBeInTheDocument();
   });
 
@@ -74,7 +93,11 @@ describe('DetailPage component', () => {
       data: undefined,
       error: DETAIL_PAGE_TEST_ERROR,
     });
-    render(<DetailPage />);
+    render(
+      <Provider store={store}>
+        <DetailPage />
+      </Provider>
+    );
     expect(
       screen.getByText(`Error: ${DETAIL_PAGE_TEST_ERROR}`)
     ).toBeInTheDocument();
@@ -82,23 +105,28 @@ describe('DetailPage component', () => {
 
   test('displays placeholder image when character image fails to load', () => {
     (useAppSelector as unknown as Mock).mockReturnValue(undefined);
-    render(<DetailPage />);
+    render(
+      <Provider store={store}>
+        <DetailPage />
+      </Provider>
+    );
     expect(screen.getByRole('img')).toHaveAttribute('src', placeholder);
   });
 
   test('displays character image when available', () => {
-    (useAppSelector as unknown as Mock).mockReturnValue({
-      ...mockFullCharacterData,
-      image: mockImage,
+    (useGetTransformedPhotosQuery as Mock).mockReturnValue({
+      data: {
+        [mockFullCharacterData.name]: { image: mockImage },
+      },
     });
     (reactRouter.useRouteLoaderData as Mock).mockReturnValue({
       data: { ...mockFullCharacterData, image: mockImage },
       error: undefined,
     });
     render(
-      <PhotoContext.Provider value={mockPhotoCharacterData}>
+      <Provider store={store}>
         <DetailPage />
-      </PhotoContext.Provider>
+      </Provider>
     );
     expect(screen.getByRole('img')).toHaveAttribute('src', mockImage);
   });

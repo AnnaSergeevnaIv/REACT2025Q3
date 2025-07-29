@@ -11,20 +11,19 @@ import {
   DETAIL_PAGE_TEST_ID,
   DETAIL_PAGE_TITLE_CLASS,
 } from './DetailPage.constants';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { selectPhotoById } from '../../store/photosSlice';
+import { useGetTransformedPhotosQuery } from '../../services/api';
 
 export function DetailPage() {
   const { data, error } = useRouteLoaderData('detail');
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const photo = useAppSelector((state) => selectPhotoById(state, data?.name));
-
+  const photoRequest = useGetTransformedPhotosQuery(undefined);
   if (error) return <div>Error: {error}</div>;
   if (!data) return <div>{DETAIL_PAGE_LOADING}</div>;
 
   const { name, height, eye_color, hair_color, mass, skin_color } = data;
-  const imageSrc = photo?.image ?? placeholder;
+
+  const imageSrc = photoRequest.data?.[name]?.image ?? placeholder;
 
   return (
     <div className={`${DETAIL_PAGE_CLASS}`} data-testid={DETAIL_PAGE_TEST_ID}>
