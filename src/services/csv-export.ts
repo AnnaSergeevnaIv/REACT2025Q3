@@ -1,12 +1,15 @@
 import { headerCharacters } from '../constants/constants';
-import { type CharacterData } from './network-requests/network-requests';
-export function downloadCSV(data: CharacterData[], count: number) {
+import { type FullCharacterData } from './network-requests/network-requests';
+export function downloadCSV(data: FullCharacterData[], count: number) {
   const rows = data.map((char) => [
     char.name,
     char.eye_color,
     char.height.toString(),
     char.url,
     char.image ?? '',
+    char.hair_color,
+    char.mass,
+    char.skin_color,
   ]);
   const csvContent = [headerCharacters, ...rows]
     .map((row) =>

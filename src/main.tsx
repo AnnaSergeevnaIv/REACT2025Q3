@@ -6,10 +6,6 @@ import App from './App.tsx';
 import { NoMatch } from './pages/NoMatch';
 import { MainPage } from './pages/MainPage';
 import { CardsLayout } from './components/CardsLayout';
-import {
-  characterDetailLoader,
-  // charactersLoader,
-} from './services/network-requests/network-requests.ts';
 import { AboutPage } from './pages/AboutPage';
 import { DetailPage } from './pages/DetailPage';
 import { Provider } from 'react-redux';
@@ -33,7 +29,7 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: 'character/:id',
-                loader: characterDetailLoader,
+                // loader: characterDetailLoader,
                 id: 'detail',
                 element: <DetailPage />,
               },
