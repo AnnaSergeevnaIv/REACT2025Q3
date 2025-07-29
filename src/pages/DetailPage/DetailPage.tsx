@@ -26,6 +26,7 @@ export function DetailPage() {
   const photoRequest = useGetTransformedPhotosQuery(undefined);
   const page = parseInt(searchParams.get('page') ?? '1', 10);
   const search = searchParams.get('search') ?? '';
+
   const {
     character: characterFromList,
     isLoading: isListLoading,
@@ -38,13 +39,14 @@ export function DetailPage() {
     {
       selectFromResult: ({ data, isLoading, isError }) => ({
         character: data?.results.find((character) =>
-          character.url.endsWith(id)
+          character.url.endsWith(`${id}/`)
         ),
         isLoading,
         isError,
       }),
     }
   );
+  console.log(characterFromList);
   const {
     data: characterFromId,
     isLoading: isIdLoading,
@@ -62,7 +64,6 @@ export function DetailPage() {
   const { name, height, eye_color, hair_color, mass, skin_color } = character;
 
   const imageSrc = photoRequest.data?.[name]?.image ?? placeholder;
-
   return (
     <div className={`${DETAIL_PAGE_CLASS}`} data-testid={DETAIL_PAGE_TEST_ID}>
       <h3 className={DETAIL_PAGE_TITLE_CLASS}>{name}</h3>

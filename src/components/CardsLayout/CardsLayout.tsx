@@ -5,6 +5,7 @@ import {
   CARDS_LAYOUT_CONTAINER_CLASS,
   CARDS_LAYOUT_ERROR,
   CARDS_LAYOUT_LOADING,
+  CARDS_LAYOUT_REFETCH_BUTTON_CLASS,
 } from './CardsLayout.constants';
 import { Card } from '../Card';
 import { Outlet, useNavigate, useSearchParams } from 'react-router';
@@ -16,7 +17,7 @@ export function CardsLayout() {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') || '1');
   const search = searchParams.get('search') || '';
-  const { data, isLoading, isError } = useGetCharactersQuery({
+  const { data, isLoading, isError, refetch } = useGetCharactersQuery({
     search,
     page,
   });
@@ -69,6 +70,14 @@ export function CardsLayout() {
           {CARDS_LAYOUT_BUTTON_NEXT_NAME}
         </button>
       </div>
+      <button
+        className={CARDS_LAYOUT_REFETCH_BUTTON_CLASS}
+        onClick={() => {
+          refetch();
+        }}
+      >
+        Refetch
+      </button>
       <Footer />
     </div>
   );
