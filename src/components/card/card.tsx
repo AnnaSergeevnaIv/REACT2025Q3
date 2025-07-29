@@ -18,7 +18,7 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { useGetTransformedPhotosQuery } from '../../services/api';
 import { type FullCharacterData } from '../../services/network-requests/network-requests';
 
-export interface CardProps extends FullCharacterData {
+interface CardProps extends FullCharacterData {
   cardClickHandle: (id: string) => void;
 }
 export function Card(props: CardProps) {

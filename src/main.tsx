@@ -23,20 +23,16 @@ export const router = createBrowserRouter([
         children: [
           {
             path: '',
-            // loader: charactersLoader,
-            id: 'cards-layout',
             element: <CardsLayout />,
             children: [
               {
                 path: 'character/:id',
-                // loader: characterDetailLoader,
-                id: 'detail',
                 element: <DetailPage />,
               },
             ],
           },
           {
-            path: '/about',
+            path: 'about',
             element: <AboutPage />,
           },
         ],
