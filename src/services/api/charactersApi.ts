@@ -1,9 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { baseURLCharacters } from '../../constants/constants';
-import type {
-  FullCharacterData,
-  ResponseCharacters,
-} from '../network-requests/network-requests';
+import type { FullCharacterData, ResponseCharacters } from './character.types';
 
 interface QueryParams {
   search?: string;

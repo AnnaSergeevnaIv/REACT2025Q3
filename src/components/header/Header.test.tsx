@@ -4,8 +4,8 @@ import userEvent from '@testing-library/user-event';
 import type { Mock } from 'vitest';
 import {
   HEADER_ABOUT_BUTTON_NAME,
-  HEADER_SEARCH_BUTTON_NAME,
-} from './Header.constant';
+  HEADER_THEME_LIGHT_BUTTON_NAME,
+} from './Header.constants';
 
 vi.mock('react-router', () => {
   const original = vi.importActual('react-router');
@@ -23,54 +23,16 @@ describe('Header component', () => {
   });
   const baseProps: HeaderProps = { clickHandle: () => {}, value: '' };
 
-  test('Header component should render input and button', () => {
+  test('Header component should render search bar, about button and theme button', () => {
     render(<Header {...baseProps} />);
     expect(screen.getByRole('textbox')).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: HEADER_SEARCH_BUTTON_NAME })
+      screen.getByRole('button', { name: HEADER_ABOUT_BUTTON_NAME })
     ).toBeInTheDocument();
-  });
-
-  test('Header component should display passed value in input', () => {
-    const mockProps: HeaderProps = {
-      ...baseProps,
-      value: 'test value',
-    };
-    render(<Header {...mockProps} />);
-    expect(screen.getByRole('textbox')).toHaveValue(mockProps.value);
-  });
-
-  test('Should render empty input when value is empty', () => {
-    render(<Header {...baseProps} />);
-    expect(screen.getByRole('textbox')).toHaveValue('');
-  });
-
-  test('Header component should call click handler on button click', async () => {
-    const mockHandleClick = vi.fn();
-    const mockProps: HeaderProps = {
-      ...baseProps,
-      clickHandle: mockHandleClick,
-    };
-    render(<Header {...mockProps} />);
-    const button = screen.getByRole('button', {
-      name: HEADER_SEARCH_BUTTON_NAME,
-    });
-    await userEvent.click(button);
-    expect(mockHandleClick).toHaveBeenCalled();
-  });
-
-  test('should call click handler with updated input value after user types and clicks button', async () => {
-    const mockHandleClick = vi.fn();
-    const mockProps: HeaderProps = {
-      ...baseProps,
-      clickHandle: mockHandleClick,
-    };
-    render(<Header {...mockProps} />);
-    await userEvent.type(screen.getByRole('textbox'), 'test');
-    await userEvent.click(
-      screen.getByRole('button', { name: HEADER_SEARCH_BUTTON_NAME })
-    );
-    expect(mockHandleClick).toHaveBeenCalledWith('test');
+    expect(
+      screen.getByRole('button', { name: HEADER_THEME_LIGHT_BUTTON_NAME })
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('search-bar')).toBeInTheDocument();
   });
 
   test('navigates to About page when About button is clicked', async () => {

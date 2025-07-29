@@ -1,5 +1,7 @@
-import { type FullCharacterData } from '../services/network-requests/network-requests';
-import { type PhotoCharacterData } from '../App';
+import {
+  type FullCharacterData,
+  type PhotoCharacterData,
+} from '../services/api';
 export const mockCharactersData: FullCharacterData[] = [
   {
     name: 'Darth Vader',

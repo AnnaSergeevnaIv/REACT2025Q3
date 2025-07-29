@@ -3,6 +3,7 @@ import {
   CARD_CHECKBOX_CLASS,
   CARD_CHECKBOX_TEST_ID,
   CARD_CONTAINER_CLASS,
+  CARD_DETAIL_PAGE_CONTAINER_CLASS,
   CARD_IMAGE_CLASS,
   CARD_TEST_ID,
 } from './Card.constants';
@@ -16,13 +17,15 @@ import {
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { useGetTransformedPhotosQuery } from '../../services/api';
-import { type FullCharacterData } from '../../services/network-requests/network-requests';
+import { type FullCharacterData } from '../../services/api/character.types';
 
-interface CardProps extends FullCharacterData {
+export interface CardProps extends FullCharacterData {
   cardClickHandle: (id: string) => void;
+  isDetailPage?: boolean;
 }
 export function Card(props: CardProps) {
-  const { name, height, eye_color, image, url, cardClickHandle } = props;
+  const { name, height, eye_color, image, url, cardClickHandle, ...rest } =
+    props;
   const dispatch = useAppDispatch();
   const { data } = useGetTransformedPhotosQuery(undefined);
 
@@ -70,7 +73,11 @@ export function Card(props: CardProps) {
   };
   return (
     <div
-      className={CARD_CONTAINER_CLASS}
+      className={
+        rest.isDetailPage
+          ? CARD_DETAIL_PAGE_CONTAINER_CLASS
+          : CARD_CONTAINER_CLASS
+      }
       data-testid={CARD_TEST_ID}
       onClick={cardContainerClickHandle}
     >
@@ -93,6 +100,13 @@ export function Card(props: CardProps) {
       <h3>{name}</h3>
       <p>{`Height: ${height}`}</p>
       <p>{`Eye color: ${eye_color}`}</p>
+      {rest.isDetailPage && (
+        <>
+          <p>{`Hair color: ${rest.hair_color}`}</p>
+          <p>{`Mass: ${rest.mass}`}</p>
+          <p>{`Skin color: ${rest.skin_color}`}</p>
+        </>
+      )}
     </div>
   );
 }

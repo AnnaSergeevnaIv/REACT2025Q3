@@ -1,16 +1,16 @@
 import {
-  CARDS_LAYOUT_BUTTON_CONTAINER_CLASS,
-  CARDS_LAYOUT_BUTTON_NEXT_NAME,
-  CARDS_LAYOUT_BUTTON_PREV_NAME,
   CARDS_LAYOUT_CONTAINER_CLASS,
   CARDS_LAYOUT_ERROR,
   CARDS_LAYOUT_LOADING,
+  CARDS_LAYOUT_NO_DATA,
   CARDS_LAYOUT_REFETCH_BUTTON_CLASS,
+  CARDS_LAYOUT_REFETCH_BUTTON_NAME,
 } from './CardsLayout.constants';
 import { Card } from '../Card';
 import { Outlet, useNavigate, useSearchParams } from 'react-router';
 import { Footer } from '../Footer/Footer';
 import { useGetCharactersQuery } from '../../services/api';
+import { Pagination } from '../Pagination';
 
 export function CardsLayout() {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ export function CardsLayout() {
 
   if (isError) return <div>{CARDS_LAYOUT_ERROR}</div>;
   if (isLoading) return <div>{CARDS_LAYOUT_LOADING}</div>;
-  if (!data) return <div>No data</div>;
+  if (!data?.results) return <div>{CARDS_LAYOUT_NO_DATA}</div>;
   return (
     <div>
       <div className="flex">
@@ -45,6 +45,7 @@ export function CardsLayout() {
             <Card
               {...character}
               cardClickHandle={cardClickHandle}
+              isDetailPage={false}
               key={character.name}
             />
           ))}
@@ -52,31 +53,18 @@ export function CardsLayout() {
         <Outlet />
       </div>
 
-      <div className={CARDS_LAYOUT_BUTTON_CONTAINER_CLASS}>
-        <button
-          onClick={() => {
-            handlePagination(false);
-          }}
-          disabled={!data.previous}
-        >
-          {CARDS_LAYOUT_BUTTON_PREV_NAME}
-        </button>
-        <button
-          onClick={() => {
-            handlePagination(true);
-          }}
-          disabled={!data.next}
-        >
-          {CARDS_LAYOUT_BUTTON_NEXT_NAME}
-        </button>
-      </div>
+      <Pagination
+        onClick={handlePagination}
+        prevDisabled={!data.previous}
+        nextDisabled={!data.next}
+      />
       <button
         className={CARDS_LAYOUT_REFETCH_BUTTON_CLASS}
         onClick={() => {
           refetch();
         }}
       >
-        Refetch
+        {CARDS_LAYOUT_REFETCH_BUTTON_NAME}
       </button>
       <Footer />
     </div>

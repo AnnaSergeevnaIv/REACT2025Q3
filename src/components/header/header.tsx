@@ -4,13 +4,12 @@ import {
   HEADER_ABOUT_BUTTON_NAME,
   HEADER_CLASS,
   HEADER_IMAGE_CLASS,
-  HEADER_INPUT_CLASS,
-  HEADER_SEARCH_BUTTON_NAME,
   HEADER_THEME_DARK_BUTTON_NAME,
   HEADER_THEME_LIGHT_BUTTON_NAME,
-} from './Header.constant';
+} from './Header.constants';
 import { useNavigate } from 'react-router';
 import { ThemeContext } from '../../services/ThemeContext';
+import { SearchBar } from '../SearchBar';
 
 export interface HeaderProps {
   clickHandle: (value: string) => void;
@@ -31,20 +30,11 @@ export function Header({ clickHandle, value }: HeaderProps) {
   return (
     <header className={HEADER_CLASS}>
       <img src={logo} alt="start wars logo" className={HEADER_IMAGE_CLASS} />
-      <input
-        type="text"
-        className={HEADER_INPUT_CLASS}
-        placeholder="Search character"
+      <SearchBar
         onChange={handleChange}
+        onClick={clickHandle}
         value={inputValue}
       />
-      <button
-        onClick={() => {
-          clickHandle(inputValue.trim());
-        }}
-      >
-        {HEADER_SEARCH_BUTTON_NAME}
-      </button>
       <button
         onClick={() => {
           navigate('/about');

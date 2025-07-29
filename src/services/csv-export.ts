@@ -1,5 +1,5 @@
 import { headerCharacters } from '../constants/constants';
-import { type FullCharacterData } from './network-requests/network-requests';
+import { type FullCharacterData } from './api';
 
 export function downloadCSV(data: FullCharacterData[], count: number) {
   const rows = data.map((char) => [

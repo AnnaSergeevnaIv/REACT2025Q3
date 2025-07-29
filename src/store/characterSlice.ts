@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { type FullCharacterData } from '../services/network-requests/network-requests';
+import { type FullCharacterData } from '../services/api';
 import type { RootState } from './store';
 
 const initialState: FullCharacterData[] = [];

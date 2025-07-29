@@ -48,6 +48,23 @@ describe('Card component', () => {
     (useAppSelector as unknown as Mock).mockReturnValue([]);
   });
 
+  test('displays character name correctly', () => {
+    render(<Card {...baseProps} />);
+    expect(screen.getByText(baseProps.name)).toBeInTheDocument();
+  });
+
+  test('displays character height correctly', () => {
+    render(<Card {...baseProps} />);
+    expect(screen.getByText(`Height: ${baseProps.height}`)).toBeInTheDocument();
+  });
+
+  test('displays character eye color correctly', () => {
+    render(<Card {...baseProps} />);
+    expect(
+      screen.getByText(`Eye color: ${baseProps.eye_color}`)
+    ).toBeInTheDocument();
+  });
+
   test('Card component should render image from given props if photo is undefined', () => {
     const props: CardProps = {
       ...baseProps,
