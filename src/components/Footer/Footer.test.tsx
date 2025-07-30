@@ -32,6 +32,11 @@ describe('Footer component', () => {
     render(<Footer />);
     expect(screen.queryByTestId(FOOTER_TEST_ID)).not.toBeInTheDocument();
   });
+  test('does not render Footer when characters in store are undefined', () => {
+    (useAppSelector as unknown as Mock).mockReturnValue(undefined);
+    render(<Footer />);
+    expect(screen.queryByTestId(FOOTER_TEST_ID)).not.toBeInTheDocument();
+  });
 
   test('renders Footer when there are selected characters in store', () => {
     (useAppSelector as unknown as Mock).mockReturnValue(mockCharactersData);

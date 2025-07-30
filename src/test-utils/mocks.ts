@@ -33,13 +33,3 @@ export const mockPhotoCharacterData: PhotoCharacterData[] = [
     image: mockImage,
   },
 ];
-
-// export const mockFullCharacterData: FullCharacterData = {
-//   name: 'Darth Vader',
-//   height: 202,
-//   eye_color: 'yellow',
-//   url: '',
-//   hair_color: '',
-//   mass: '',
-//   skin_color: '',
-// };

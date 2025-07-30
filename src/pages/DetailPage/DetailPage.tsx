@@ -40,7 +40,6 @@ export function DetailPage() {
       }),
     }
   );
-  console.log(characterFromList);
   const {
     data: characterFromId,
     isLoading: isIdLoading,

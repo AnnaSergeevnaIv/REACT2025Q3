@@ -26,6 +26,9 @@ const mocks = {
 vi.mock('../../hooks/useAppSelector', () => ({
   useAppSelector: vi.fn().mockReturnValue([]),
 }));
+vi.mock('../../hooks/useAppDispatch', () => ({
+  useAppDispatch: vi.fn().mockReturnValue([]),
+}));
 vi.mock(import('../../services/api'), async (importOriginal) => {
   const actual = await importOriginal();
   return {
@@ -171,5 +174,17 @@ describe('DetailPage component', () => {
       </Provider>
     );
     expect(useGetCharacterQuery).toHaveBeenCalledWith('1', { skip: false });
+  });
+  test('skips character by ID when found in list', () => {
+    (useGetCharactersQuery as Mock).mockReturnValue({
+      character: mockCharactersData[0],
+      isLoading: false,
+      isError: false,
+    });
+
+    render(<DetailPage />);
+    expect(useGetCharacterQuery).toHaveBeenCalledWith('1', {
+      skip: true,
+    });
   });
 });
