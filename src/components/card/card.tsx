@@ -1,4 +1,4 @@
-import placeholder from '../../assets/placeholder.png';
+'use client';
 import {
   CARD_CHECKBOX_CLASS,
   CARD_CHECKBOX_TEST_ID,
@@ -8,7 +8,7 @@ import {
   CARD_TEST_ID,
 } from './Card.constants';
 import { getIdFromUrl } from './Card.utils';
-import type { ChangeEvent, MouseEvent } from 'react';
+import { useContext, type ChangeEvent, type MouseEvent } from 'react';
 import {
   characterAdded,
   characterRemoved,
@@ -16,22 +16,26 @@ import {
 } from '../../store/characterSlice';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { useGetTransformedPhotosQuery } from '../../services/api';
 import { type FullCharacterData } from '../../services/api/character.types';
-
+import Image from 'next/image';
+import placeholder from '../../../public/placeholder.png';
+import './Card.css';
+import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { PhotoContext } from '../../services/PhotoContext/PhotoContext';
+import React from 'react';
 export interface CardProps extends FullCharacterData {
-  cardClickHandle: (id: string) => void;
   isDetailPage?: boolean;
 }
 export function Card(props: CardProps) {
-  const { name, height, eye_color, image, url, cardClickHandle, ...rest } =
-    props;
+  const { name, height, eye_color, image, url, ...rest } = props;
   const dispatch = useAppDispatch();
-  const { data } = useGetTransformedPhotosQuery(undefined);
-
+  const router = useRouter();
+  const params = useSearchParams();
   const checkedCards = useAppSelector(selectCheckedCharacters);
-  const photoImage =
-    data && data[name]?.image ? data[name].image : image ? image : placeholder;
+  const photos = useContext(PhotoContext);
+  const photo = photos.find((photo) => photo.name === name)?.image;
+  const photoImage = image || photo;
 
   const checkboxClickHandle = (event: ChangeEvent) => {
     if (!(event.target instanceof HTMLInputElement)) return;
@@ -65,7 +69,7 @@ export function Card(props: CardProps) {
   };
   const cardContainerClickHandle = (event: MouseEvent) => {
     if (event.target instanceof HTMLInputElement) return;
-    cardClickHandle(getIdFromUrl(url));
+    router.push(`/character/${getIdFromUrl(url)}?${params?.toString()}`);
   };
   const isCardChecked = () => {
     const checkedCard = checkedCards.find((card) => card.name === name);
@@ -81,7 +85,7 @@ export function Card(props: CardProps) {
       data-testid={CARD_TEST_ID}
       onClick={cardContainerClickHandle}
     >
-      {image ? (
+      {rest.isDetailPage ? (
         <></>
       ) : (
         <input
@@ -92,10 +96,12 @@ export function Card(props: CardProps) {
           data-testid={CARD_CHECKBOX_TEST_ID}
         />
       )}
-      <img
-        src={photoImage}
+      <Image
+        src={photoImage ? photoImage : placeholder.src}
         alt={`${name} image`}
         className={CARD_IMAGE_CLASS}
+        width={200}
+        height={200}
       />
       <h3>{name}</h3>
       <p>{`Height: ${height}`}</p>

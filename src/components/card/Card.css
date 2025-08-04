@@ -1,0 +1,34 @@
+.card {
+  position: relative;
+  width: 13rem;
+  height: 26rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.card:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-checkbox {
+  position: absolute;
+  width: 7%;
+  height: 7%;
+  top: 5%;
+  right: 5%;
+  z-index: 1;
+}
+
+.card-image {
+  width: 100%;
+  height: 60%;
+  object-fit: cover;
+  object-position: top;
+  margin-bottom: 1rem;
+}

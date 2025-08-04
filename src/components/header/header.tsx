@@ -1,52 +1,23 @@
-import { useContext, useState, type ChangeEvent } from 'react';
-import logo from '../../assets/logo.png';
-import {
-  HEADER_ABOUT_BUTTON_NAME,
-  HEADER_CLASS,
-  HEADER_IMAGE_CLASS,
-  HEADER_THEME_DARK_BUTTON_NAME,
-  HEADER_THEME_LIGHT_BUTTON_NAME,
-} from './Header.constants';
-import { useNavigate } from 'react-router';
-import { ThemeContext } from '../../services/ThemeContext';
+import { HEADER_CLASS, HEADER_IMAGE_CLASS } from './Header.constants';
 import { SearchBar } from '../SearchBar';
+import { ThemeToggle } from '../ThemeToggle';
+import Image from 'next/image';
+import { AboutButton } from '../AboutButton';
+import './Header.css';
 
-export interface HeaderProps {
-  clickHandle: (value: string) => void;
-  value: string;
-}
-
-export function Header({ clickHandle, value }: HeaderProps) {
-  const [inputValue, setInputValue] = useState(value);
-  const navigate = useNavigate();
-  const { theme, setTheme } = useContext(ThemeContext);
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleThemeToggle = () =>
-    setTheme(theme === 'light' ? 'dark' : 'light');
-
+export function Header() {
   return (
     <header className={HEADER_CLASS}>
-      <img src={logo} alt="start wars logo" className={HEADER_IMAGE_CLASS} />
-      <SearchBar
-        onChange={handleChange}
-        onClick={clickHandle}
-        value={inputValue}
+      <Image
+        src="/logo.png"
+        alt="start wars logo"
+        className={HEADER_IMAGE_CLASS}
+        width={100}
+        height={50}
       />
-      <button
-        onClick={() => {
-          navigate('/about');
-        }}
-      >
-        {HEADER_ABOUT_BUTTON_NAME}
-      </button>
-      <button onClick={handleThemeToggle}>
-        {theme === 'light'
-          ? HEADER_THEME_DARK_BUTTON_NAME
-          : HEADER_THEME_LIGHT_BUTTON_NAME}
-      </button>
+      <SearchBar />
+      <AboutButton />
+      <ThemeToggle />
     </header>
   );
 }

@@ -1,5 +1,4 @@
-import myPhoto from '../../assets/my.jpeg';
-import schoolLogo from '../../assets/school-logo.jpg';
+// В Next.js картинки из public импортируются по пути от корня
 
 export const ABOUT_PAGE_CLASS = 'flex flex-wrap gap-7 justify-center mb-7';
 export const ABOUT_PAGE_BUTTON_NAME = 'Back';
@@ -11,7 +10,7 @@ export const ABOUT_PAGE_ME_DATA = {
   name: 'Anna Ivanova',
   eye_color: 'black',
   height: 155,
-  image: myPhoto,
+  image: '/my.jpeg',
   url: '',
   hair_color: '',
   mass: '0',
@@ -23,7 +22,7 @@ export const ABOUT_PAGE_SCHOOL_DATA = {
   name: 'RS SCHOOL',
   eye_color: 'look forward',
   height: 9999,
-  image: schoolLogo,
+  image: '/school-logo.jpg',
   url: '',
   hair_color: '',
   mass: '0',

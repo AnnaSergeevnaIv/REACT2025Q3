@@ -23,5 +23,6 @@ export const charactersSlice = createSlice({
 });
 export const { characterAdded, characterRemoved, stateCleared } =
   charactersSlice.actions;
-export const selectCheckedCharacters = (state: RootState) => state.characters;
+export const selectCheckedCharacters = (state: RootState) =>
+  state.checkedCharacters;
 export default charactersSlice.reducer;

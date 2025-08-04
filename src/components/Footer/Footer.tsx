@@ -1,3 +1,4 @@
+'use client';
 import {
   stateCleared,
   selectCheckedCharacters,
@@ -12,7 +13,7 @@ import {
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { downloadCSV } from '../../services/csv-export';
-
+import './Footer.css';
 export function Footer() {
   const checkedCharacters = useAppSelector(selectCheckedCharacters);
   const checkedCount = checkedCharacters ? checkedCharacters.length : 0;

@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router';
+import React from 'react';
+import Link from 'next/link';
 import { Card, type CardProps } from '../../components/Card';
 import {
-  ABOUT_PAGE_BUTTON_NAME,
   ABOUT_PAGE_CLASS,
   ABOUT_PAGE_ME_DATA,
   ABOUT_PAGE_SCHOOL_DATA,
@@ -9,34 +9,39 @@ import {
   ABOUT_PAGE_TEXT,
   ABOUT_PAGE_TEXT_CLASS,
 } from './AboutPage.constants';
+import { DetailBackButton } from '../../components/DetailBackButton/DetailBackButton';
+
 export const meDataWithHandler: CardProps = {
   ...ABOUT_PAGE_ME_DATA,
-  cardClickHandle: () => {},
+  image: ABOUT_PAGE_ME_DATA.image,
+  isDetailPage: false,
 };
 export const schoolDataWithHandler: CardProps = {
   ...ABOUT_PAGE_SCHOOL_DATA,
-  cardClickHandle: () => {},
+  image: ABOUT_PAGE_SCHOOL_DATA.image,
+  isDetailPage: false,
 };
-export function AboutPage() {
-  const navigate = useNavigate();
+export default function AboutPage() {
   return (
     <div data-testid={ABOUT_PAGE_TEST_ID}>
       <div className={ABOUT_PAGE_CLASS}>
-        <a href="https://github.com/AnnaSergeevnaIv">
+        <Link
+          href="https://github.com/AnnaSergeevnaIv"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Card {...meDataWithHandler}></Card>
-        </a>
-        <a href="https://rs.school">
+        </Link>
+        <Link
+          href="https://rs.school"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Card {...schoolDataWithHandler}></Card>
-        </a>
+        </Link>
       </div>
       <p className={ABOUT_PAGE_TEXT_CLASS}>{ABOUT_PAGE_TEXT}</p>
-      <button
-        onClick={() => {
-          navigate(-1);
-        }}
-      >
-        {ABOUT_PAGE_BUTTON_NAME}
-      </button>
+      <DetailBackButton />
     </div>
   );
 }
