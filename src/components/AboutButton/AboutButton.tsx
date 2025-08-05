@@ -1,9 +1,9 @@
 'use client';
 import React from 'react';
-import { ABOUT_BUTTON_NAME } from './AboutButton.constants';
-import { useRouter } from 'next/navigation';
-
+import { useRouter } from '../../i18n/routing';
+import { useTranslations } from 'next-intl';
 export function AboutButton() {
+  const t = useTranslations('AboutButton');
   const router = useRouter();
   return (
     <button
@@ -11,7 +11,7 @@ export function AboutButton() {
         router.push('/about');
       }}
     >
-      {ABOUT_BUTTON_NAME}
+      {t('about')}
     </button>
   );
 }

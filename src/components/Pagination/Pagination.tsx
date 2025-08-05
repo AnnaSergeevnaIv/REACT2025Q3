@@ -1,24 +1,17 @@
 'use client';
 import React from 'react';
-import {
-  PAGINATION_BUTTON_CONTAINER_CLASS,
-  PAGINATION_BUTTON_NEXT_NAME,
-  PAGINATION_BUTTON_PREV_NAME,
-} from './Pagination.constants';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { PAGINATION_BUTTON_CONTAINER_CLASS } from './Pagination.constants';
+import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from '../../i18n/routing';
 import './Pagination.css';
-
+import { useTranslations } from 'next-intl';
 export type PaginationProps = {
-  // onClick: (next: boolean) => void;
   nextDisabled: boolean;
   prevDisabled: boolean;
 };
 
-export function Pagination({
-  // onClick,
-  nextDisabled,
-  prevDisabled,
-}: PaginationProps) {
+export function Pagination({ nextDisabled, prevDisabled }: PaginationProps) {
+  const t = useTranslations('Pagination');
   const searchParams = useSearchParams();
   const page = searchParams?.get('page') || '1';
   const pathname = usePathname();
@@ -38,7 +31,7 @@ export function Pagination({
         }}
         disabled={prevDisabled}
       >
-        {PAGINATION_BUTTON_PREV_NAME}
+        {t('previous')}
       </button>
       <button
         onClick={() => {
@@ -46,7 +39,7 @@ export function Pagination({
         }}
         disabled={nextDisabled}
       >
-        {PAGINATION_BUTTON_NEXT_NAME}
+        {t('next')}
       </button>
     </div>
   );

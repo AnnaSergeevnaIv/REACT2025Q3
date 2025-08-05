@@ -19,14 +19,16 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { type FullCharacterData } from '../../services/api/character.types';
 import Image from 'next/image';
 import './Card.css';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '../../i18n/routing';
 import { useSearchParams } from 'next/navigation';
 import { PhotoContext } from '../../services/PhotoContext/PhotoContext';
 import React from 'react';
+import { useTranslations } from 'next-intl';
 export interface CardProps extends FullCharacterData {
   isDetailPage?: boolean;
 }
 export function Card(props: CardProps) {
+  const t = useTranslations('Card');
   const { name, height, eye_color, image, url, ...rest } = props;
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -103,13 +105,13 @@ export function Card(props: CardProps) {
         height={200}
       />
       <h3>{name}</h3>
-      <p>{`Height: ${height}`}</p>
-      <p>{`Eye color: ${eye_color}`}</p>
+      <p>{`${t('height')}: ${height}`}</p>
+      <p>{`${t('eyeColor')}: ${eye_color}`}</p>
       {rest.isDetailPage && (
         <>
-          <p>{`Hair color: ${rest.hair_color}`}</p>
-          <p>{`Mass: ${rest.mass}`}</p>
-          <p>{`Skin color: ${rest.skin_color}`}</p>
+          <p>{`${t('hairColor')}: ${rest.hair_color}`}</p>
+          <p>{`${t('mass')}: ${rest.mass}`}</p>
+          <p>{`${t('skinColor')}: ${rest.skin_color}`}</p>
         </>
       )}
     </div>

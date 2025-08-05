@@ -1,0 +1,46 @@
+{
+  "MainPage": {
+    "title": "Star wars characters"
+  },
+  "SearchBar": {
+    "searchButton": "Search",
+    "searchPlaceholder": "Search character"
+  },
+  "Header": {
+    "logo": "Star wars logo"
+  },
+  "AboutButton": {
+    "about": "About"
+  },
+  "ThemeToggle": {
+    "dark": "Dark theme",
+    "light": "Light theme"
+  },
+  "Card": {
+    "height": "Height",
+    "eyeColor": "Eye color",
+    "mass": "Mass",
+    "hairColor": "Hair color",
+    "skinColor": "Skin color"
+  },
+  "DetailBackButton": {
+    "back": "Back"
+  },
+  "Pagination": {
+    "next": "Next",
+    "previous": "Prev"
+  },
+  "AboutPage": {
+    "text": "This application allows you to search and explore characters from the legendary Star Wars saga. You can browse through paginated results, view detailed character information, and enjoy a smooth navigation experience."
+  },
+  "Footer": {
+    "test": "Number of selected characters",
+    "downloadCSV": "Download CSV",
+    "unselect": "Unselect All"
+  },
+  "NoMatch": {
+    "title": "404 - This is not the page you’re looking for",
+    "firstParagraph": "The Force couldn’t find what you were seeking.",
+    "secondParagraph": "Perhaps the page has gone to the Dark Side... May the Force be with you!"
+  }
+}

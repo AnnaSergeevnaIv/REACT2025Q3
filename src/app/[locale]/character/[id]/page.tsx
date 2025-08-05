@@ -1,8 +1,8 @@
 import React from 'react';
-import { CardsLayout } from '../../../components/CardsLayout';
-import { DetailPage } from '../../../pages/DetailPage';
-import { baseURLCharacters } from '../../../constants/constants';
-import { FullCharacterData } from '../../../services/api';
+import { CardsLayout } from '../../../../components/CardsLayout';
+import { DetailPage } from '../../../../pages/DetailPage';
+import { baseURLCharacters } from '../../../../constants/constants';
+import { FullCharacterData } from '../../../../services/api';
 import './CharacterPage.css';
 import { CHARACTER_PAGE_CLASS } from './CharacterPage.constants';
 interface PageProps {

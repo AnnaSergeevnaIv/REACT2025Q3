@@ -1,17 +1,18 @@
 import { HEADER_CLASS, HEADER_IMAGE_CLASS } from './Header.constants';
-import { SearchBar } from '../SearchBar';
-import { ThemeToggle } from '../ThemeToggle';
+import { SearchBar } from '@/components/SearchBar';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import Image from 'next/image';
-import { AboutButton } from '../AboutButton';
+import { AboutButton } from '@/components/AboutButton';
 import './Header.css';
 import React from 'react';
-
-export function Header() {
+import { getTranslations } from 'next-intl/server';
+export async function Header() {
+  const t = await getTranslations('Header');
   return (
     <header className={HEADER_CLASS}>
       <Image
         src="/logo.png"
-        alt="start wars logo"
+        alt={t('logo')}
         className={HEADER_IMAGE_CLASS}
         width={100}
         height={50}

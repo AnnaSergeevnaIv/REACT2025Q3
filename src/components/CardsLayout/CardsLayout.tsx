@@ -4,7 +4,7 @@ import {
   CARDS_LAYOUT_NO_DATA,
 } from './CardsLayout.constants';
 import { Card } from '../Card';
-import { Footer } from '../Footer/Footer';
+import { Footer } from '../Footer';
 import { Pagination } from '../Pagination';
 import React from 'react';
 import { baseURLCharacters } from '../../constants/constants';
@@ -43,14 +43,6 @@ export async function CardsLayout({
         prevDisabled={!dataJson.previous}
         nextDisabled={!dataJson.next}
       />
-      {/* <button
-        className={CARDS_LAYOUT_REFETCH_BUTTON_CLASS}
-        onClick={() => {
-          refetch();
-        }}
-      >
-        {CARDS_LAYOUT_REFETCH_BUTTON_NAME}
-      </button> */}
       <Footer />
     </div>
   );

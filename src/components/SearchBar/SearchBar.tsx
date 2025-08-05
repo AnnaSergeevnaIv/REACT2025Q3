@@ -1,15 +1,16 @@
 'use client';
 import { type ChangeEvent } from 'react';
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useRouter, usePathname } from '@/i18n/routing';
 import {
   SEARCH_BAR_CLASS,
   SEARCH_BAR_INPUT_CLASS,
-  SEARCH_BAR_SEARCH_BUTTON_NAME,
 } from './SearchBar.constants';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { localStorageSearchKey } from '../../app/MainPage.constants';
+import { localStorageSearchKey } from './SearchBar.constants';
 import './SearchBar.css';
-
+import React from 'react';
+import { useTranslations } from 'next-intl';
 export type SearchBarProps = {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onClick: (value: string) => void;
@@ -17,6 +18,7 @@ export type SearchBarProps = {
 };
 
 export function SearchBar() {
+  const t = useTranslations('SearchBar');
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -49,7 +51,7 @@ export function SearchBar() {
       <input
         type="text"
         className={SEARCH_BAR_INPUT_CLASS}
-        placeholder="Search character"
+        placeholder={t('searchPlaceholder')}
         onChange={handleChange}
         value={inputValue}
       />
@@ -58,7 +60,7 @@ export function SearchBar() {
           handleClick(inputValue.trim());
         }}
       >
-        {SEARCH_BAR_SEARCH_BUTTON_NAME}
+        {t('searchButton')}
       </button>
     </div>
   );

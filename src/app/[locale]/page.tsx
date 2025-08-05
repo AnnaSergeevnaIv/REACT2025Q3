@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardsLayout } from '../components/CardsLayout';
+import { CardsLayout } from '../../components/CardsLayout';
 
 interface PageProps {
   searchParams: {
