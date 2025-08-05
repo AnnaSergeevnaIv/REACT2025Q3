@@ -7,9 +7,11 @@ import {
 } from './Footer.constants';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { downloadCSV } from '@/services/csv-export';
+import { downloadCSV } from '@/services/downloadCSV';
 import './Footer.css';
 import { useTranslations } from 'next-intl';
+import React from 'react';
+
 export function Footer() {
   const t = useTranslations('Footer');
   const checkedCharacters = useAppSelector(selectCheckedCharacters);
