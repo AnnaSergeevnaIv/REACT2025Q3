@@ -4,6 +4,7 @@ import { ThemeToggle } from '../ThemeToggle';
 import Image from 'next/image';
 import { AboutButton } from '../AboutButton';
 import './Header.css';
+import React from 'react';
 
 export function Header() {
   return (

@@ -38,7 +38,9 @@ export function SearchBar() {
     } else {
       params.delete('search');
     }
-    router.push(`${pathname}?${params.toString()}`);
+    router.push(
+      `${pathname === '/about' ? '/' : pathname}?${params.toString()}`
+    );
     setInputValue(value);
   };
 

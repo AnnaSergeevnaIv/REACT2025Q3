@@ -18,7 +18,6 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { type FullCharacterData } from '../../services/api/character.types';
 import Image from 'next/image';
-import placeholder from '../../../public/placeholder.png';
 import './Card.css';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
@@ -85,7 +84,7 @@ export function Card(props: CardProps) {
       data-testid={CARD_TEST_ID}
       onClick={cardContainerClickHandle}
     >
-      {rest.isDetailPage ? (
+      {rest.isDetailPage || image ? (
         <></>
       ) : (
         <input
@@ -97,7 +96,7 @@ export function Card(props: CardProps) {
         />
       )}
       <Image
-        src={photoImage ? photoImage : placeholder.src}
+        src={photoImage ? photoImage : '/placeholder.png'}
         alt={`${name} image`}
         className={CARD_IMAGE_CLASS}
         width={200}

@@ -10,6 +10,7 @@ import {
   ABOUT_PAGE_TEXT_CLASS,
 } from './AboutPage.constants';
 import { DetailBackButton } from '../../components/DetailBackButton/DetailBackButton';
+import './AboutPage.css';
 
 export const meDataWithHandler: CardProps = {
   ...ABOUT_PAGE_ME_DATA,
