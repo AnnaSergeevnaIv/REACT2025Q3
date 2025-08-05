@@ -2,8 +2,6 @@ export const ABOUT_PAGE_CLASS = 'about-page';
 export const ABOUT_PAGE_BUTTON_NAME = 'Back';
 export const ABOUT_PAGE_TEST_ID = 'about';
 export const ABOUT_PAGE_TEXT_CLASS = 'about-page-text';
-export const ABOUT_PAGE_TEXT =
-  'This application allows you to search and explore characters from the legendary Star Wars saga. You can browse through paginated results, view detailed character information, and enjoy a smooth navigation experience.';
 export const ABOUT_PAGE_ME_DATA = {
   name: 'Anna Ivanova',
   eye_color: 'black',

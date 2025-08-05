@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import '@/index.css';
 import { ThemeProvider } from '@/services/ThemeContext';
 import { Header } from '@/components/Header';
@@ -8,9 +7,6 @@ import React from 'react';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
-export const metadata: Metadata = {
-  title: 'Star Wars',
-};
 
 export default async function LocaleLayout({
   children,

@@ -6,7 +6,7 @@ import {
   NO_MATCH_TEST_ID,
 } from './NoMatch.constants';
 import React from 'react';
-import { DetailBackButton } from '../../components/DetailBackButton/DetailBackButton';
+import { DetailBackButton } from '../DetailBackButton/DetailBackButton';
 import { useTranslations } from 'next-intl';
 export default function NoMatch() {
   const t = useTranslations('NoMatch');
