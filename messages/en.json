@@ -42,5 +42,9 @@
     "title": "404 - This is not the page you’re looking for",
     "firstParagraph": "The Force couldn’t find what you were seeking.",
     "secondParagraph": "Perhaps the page has gone to the Dark Side... May the Force be with you!"
+  },
+  "LanguageSwitcher": {
+    "en": "English",
+    "ru": "Russian"
   }
 }

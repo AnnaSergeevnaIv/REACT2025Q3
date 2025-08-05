@@ -6,6 +6,7 @@ import { AboutButton } from '@/components/AboutButton';
 import './Header.css';
 import React from 'react';
 import { getTranslations } from 'next-intl/server';
+import { LanguageSwitcher } from '../LanguageSwitcher/LanguageSwitcher';
 export async function Header() {
   const t = await getTranslations('Header');
   return (
@@ -20,6 +21,7 @@ export async function Header() {
       <SearchBar />
       <AboutButton />
       <ThemeToggle />
+      <LanguageSwitcher />
     </header>
   );
 }
