@@ -5,6 +5,7 @@ const nextConfig = {
   distDir: './dist',
     images: {
     remotePatterns: [new URL('https://vignette.wikia.nocookie.net/**')],
+
   },
   experimental: {
     esmExternals: 'loose'

@@ -8,6 +8,6 @@ interface PageProps {
   }>;
 }
 
-export default async function Page({ searchParams }: PageProps) {
+export default function Page({ searchParams }: PageProps) {
   return <CardsLayout searchParams={searchParams} />;
 }
