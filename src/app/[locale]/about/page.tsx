@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Card, type CardProps } from '../../../components/Card';
+import { Card, type CardProps } from '../../../components/card';
 import {
   ABOUT_PAGE_CLASS,
   ABOUT_PAGE_ME_DATA,

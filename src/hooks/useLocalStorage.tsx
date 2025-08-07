@@ -6,15 +6,12 @@ export function useLocalStorage<T>(
 ): [T, (val: T) => void] {
   const isTypeString = typeof initialValue === 'string';
   const [value, setValue] = useState(() => {
-    const data = window.localStorage.getItem(key);
+    const data = localStorage.getItem(key);
     return data ? (!isTypeString ? JSON.parse(data) : data) : initialValue;
   });
 
   useEffect(() => {
-    window.localStorage.setItem(
-      key,
-      isTypeString ? value : JSON.stringify(value)
-    );
+    localStorage.setItem(key, isTypeString ? value : JSON.stringify(value));
   }, [key, value]);
 
   return [value, setValue];

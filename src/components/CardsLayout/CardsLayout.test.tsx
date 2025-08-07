@@ -9,7 +9,7 @@ import {
   CARDS_LAYOUT_NO_DATA,
   CARDS_LAYOUT_REFETCH_BUTTON_NAME,
 } from './CardsLayout.constants';
-import { CARD_TEST_ID } from '../Card';
+import { CARD_TEST_ID } from '../card';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 import { useGetCharactersQuery } from '../../services/api';

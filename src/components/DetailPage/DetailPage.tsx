@@ -1,6 +1,6 @@
 import { DETAIL_PAGE_CLASS, DETAIL_PAGE_TEST_ID } from './DetailPage.constants';
 import { FullCharacterData } from '../../services/api';
-import { Card } from '../Card';
+import { Card } from '../card';
 import './DetailPage.css';
 import { DetailBackButton } from '../DetailBackButton/DetailBackButton';
 import React from 'react';

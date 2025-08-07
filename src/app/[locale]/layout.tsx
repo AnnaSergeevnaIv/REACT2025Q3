@@ -1,6 +1,6 @@
 import '@/index.css';
 import { ThemeProvider } from '@/services/ThemeContext';
-import { Header } from '@/components/Header';
+import { Header } from '@/components/header';
 import { ReduxProvider } from '@/services/ReduxProvider/ReduxProvider';
 import { Photos } from '@/services/PhotoContext';
 import React from 'react';

@@ -3,7 +3,7 @@ import {
   CARDS_LAYOUT_ERROR,
   CARDS_LAYOUT_NO_DATA,
 } from './CardsLayout.constants';
-import { Card } from '../Card';
+import { Card } from '../card';
 import { Footer } from '../Footer';
 import { Pagination } from '../Pagination';
 import React from 'react';
