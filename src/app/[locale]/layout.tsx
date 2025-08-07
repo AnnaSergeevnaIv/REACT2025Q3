@@ -7,6 +7,7 @@ import React from 'react';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { ErrorBoundary } from '@/services/ErrorBoundary';
 
 export default async function LocaleLayout({
   children,
@@ -21,20 +22,22 @@ export default async function LocaleLayout({
   }
   return (
     <html lang={locale}>
-      <ThemeProvider>
-        <ReduxProvider>
-          <Photos>
-            <NextIntlClientProvider>
-              <div className="app-container">
-                <div className="main-page">
-                  <Header />
-                  {children}
+      <ErrorBoundary>
+        <ThemeProvider>
+          <ReduxProvider>
+            <Photos>
+              <NextIntlClientProvider>
+                <div className="app-container">
+                  <div className="main-page">
+                    <Header />
+                    {children}
+                  </div>
                 </div>
-              </div>
-            </NextIntlClientProvider>
-          </Photos>
-        </ReduxProvider>
-      </ThemeProvider>
+              </NextIntlClientProvider>
+            </Photos>
+          </ReduxProvider>
+        </ThemeProvider>
+      </ErrorBoundary>
     </html>
   );
 }
