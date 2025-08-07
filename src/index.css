@@ -1,0 +1,102 @@
+
+body {
+  overflow-x: hidden;
+  box-sizing: border-box;
+  margin: 0;
+}
+.light {
+  --background-color: white;
+  --text-color: black;
+  --button-background-color: rgba(255, 183, 0, 0.772);
+  --border-color: rgb(23, 23, 21);
+}
+
+.dark {
+  --background-color: black;
+  --button-background-color: #626060;
+  --text-color: white;
+  --border-color: yellow;
+}
+
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.main-page {
+  width: 100%;
+  max-width: 1280px;
+  margin-bottom: 2.5rem;
+}
+
+:root {
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  text-align: center;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--button-background-color);
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: var(--border-color);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+input {
+  font-size: 1.5rem;
+  border: 1px solid var(--text-color);
+  border-radius: 0.5rem;
+  padding: 0 6px;
+}
+
+h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+p {
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0.5rem 0;
+}
+
+.card:hover {
+  background-color: var(--button-background-color);
+}

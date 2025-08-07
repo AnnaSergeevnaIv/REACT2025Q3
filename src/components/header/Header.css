@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.header-logo {
+  margin-right: auto;
+  width: 7rem;
+  height: auto;
+}
