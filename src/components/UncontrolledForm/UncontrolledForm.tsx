@@ -7,7 +7,8 @@ import {
 } from './UncontrolledForm.constants';
 import Field from '../Field';
 import RadioField from '../RadioField';
-
+import CountryAutocomplete from '../CountryAutocomplete';
+import './UncontrolledForm.css';
 export default function UncontrolledForm() {
   const ref = useRef<HTMLFormElement | null>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
@@ -48,6 +49,7 @@ export default function UncontrolledForm() {
         type="file"
         id={FORM.image.toLowerCase()}
       />
+      <CountryAutocomplete />
       <input type="submit" />
     </form>
   );
