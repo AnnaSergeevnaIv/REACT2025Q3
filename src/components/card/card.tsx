@@ -1,9 +1,9 @@
-import { type CharacterData } from '../../services/network-requests/network-requests';
 import placeholder from '../../assets/placeholder.png';
 import {
   CARD_CHECKBOX_CLASS,
   CARD_CHECKBOX_TEST_ID,
   CARD_CONTAINER_CLASS,
+  CARD_DETAIL_PAGE_CONTAINER_CLASS,
   CARD_IMAGE_CLASS,
   CARD_TEST_ID,
 } from './Card.constants';
@@ -16,33 +16,50 @@ import {
 } from '../../store/characterSlice';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { selectPhotoById } from '../../store/photosSlice';
+import { useGetTransformedPhotosQuery } from '../../services/api';
+import { type FullCharacterData } from '../../services/api/character.types';
 
-export interface CardProps extends CharacterData {
+export interface CardProps extends FullCharacterData {
   cardClickHandle: (id: string) => void;
+  isDetailPage?: boolean;
 }
-export function Card({
-  name,
-  height,
-  eye_color,
-  image,
-  url,
-  cardClickHandle,
-}: CardProps) {
+export function Card(props: CardProps) {
+  const { name, height, eye_color, image, url, cardClickHandle, ...rest } =
+    props;
   const dispatch = useAppDispatch();
-  const photo = useAppSelector((state) => selectPhotoById(state, name));
-  const photoImage = photo ? photo.image : image ? image : placeholder;
+  const { data } = useGetTransformedPhotosQuery(undefined);
 
   const checkedCards = useAppSelector(selectCheckedCharacters);
+  const photoImage =
+    data && data[name]?.image ? data[name].image : image ? image : placeholder;
+
   const checkboxClickHandle = (event: ChangeEvent) => {
     if (!(event.target instanceof HTMLInputElement)) return;
     if (event.target.checked) {
       dispatch(
-        characterAdded({ name, height, eye_color, url, image: photo.image })
+        characterAdded({
+          name,
+          height,
+          eye_color,
+          url,
+          image: photoImage,
+          hair_color: props.hair_color,
+          mass: props.mass,
+          skin_color: props.skin_color,
+        })
       );
     } else {
       dispatch(
-        characterRemoved({ name, height, eye_color, url, image: photo.image })
+        characterRemoved({
+          name,
+          height,
+          eye_color,
+          url,
+          image: photoImage,
+          hair_color: props.hair_color,
+          mass: props.mass,
+          skin_color: props.skin_color,
+        })
       );
     }
   };
@@ -56,7 +73,11 @@ export function Card({
   };
   return (
     <div
-      className={CARD_CONTAINER_CLASS}
+      className={
+        rest.isDetailPage
+          ? CARD_DETAIL_PAGE_CONTAINER_CLASS
+          : CARD_CONTAINER_CLASS
+      }
       data-testid={CARD_TEST_ID}
       onClick={cardContainerClickHandle}
     >
@@ -79,6 +100,13 @@ export function Card({
       <h3>{name}</h3>
       <p>{`Height: ${height}`}</p>
       <p>{`Eye color: ${eye_color}`}</p>
+      {rest.isDetailPage && (
+        <>
+          <p>{`Hair color: ${rest.hair_color}`}</p>
+          <p>{`Mass: ${rest.mass}`}</p>
+          <p>{`Skin color: ${rest.skin_color}`}</p>
+        </>
+      )}
     </div>
   );
 }

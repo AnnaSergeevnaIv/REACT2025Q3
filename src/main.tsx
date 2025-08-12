@@ -6,47 +6,50 @@ import App from './App.tsx';
 import { NoMatch } from './pages/NoMatch';
 import { MainPage } from './pages/MainPage';
 import { CardsLayout } from './components/CardsLayout';
-import {
-  characterDetailLoader,
-  charactersLoader,
-} from './services/network-requests/network-requests.ts';
 import { AboutPage } from './pages/AboutPage';
 import { DetailPage } from './pages/DetailPage';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
-
+type Routes = {
+  ROOT: string;
+  ABOUT: string;
+  DETAIL: string;
+  NO_MATCH: string;
+};
+const ROUTES: Routes = {
+  ROOT: '/',
+  ABOUT: '/about',
+  DETAIL: '/character/:id',
+  NO_MATCH: '*',
+} as const;
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: ROUTES.ROOT,
     element: <App />,
     id: 'root',
     children: [
       {
-        path: '',
+        path: ROUTES.ROOT,
         element: <MainPage />,
         children: [
           {
-            path: '',
-            loader: charactersLoader,
-            id: 'cards-layout',
+            path: ROUTES.ROOT,
             element: <CardsLayout />,
             children: [
               {
-                path: 'character/:id',
-                loader: characterDetailLoader,
-                id: 'detail',
+                path: ROUTES.DETAIL,
                 element: <DetailPage />,
               },
             ],
           },
           {
-            path: '/about',
+            path: ROUTES.ABOUT,
             element: <AboutPage />,
           },
         ],
       },
       {
-        path: '*',
+        path: ROUTES.NO_MATCH,
         element: <NoMatch />,
       },
     ],

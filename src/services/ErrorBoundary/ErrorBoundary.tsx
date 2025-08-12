@@ -1,10 +1,11 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
+
 interface ErrorBoundaryState {
   hasError: boolean;
 }
 
 interface ErrorBoundaryProps {
-  fallback: ReactNode;
+  fallback?: ReactNode;
   children: ReactNode;
 }
 
@@ -27,7 +28,11 @@ export class ErrorBoundary extends Component<
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback;
+      return (
+        this.props.fallback || (
+          <h1>Something went wrong. Please refresh the page</h1>
+        )
+      );
     }
 
     return this.props.children;

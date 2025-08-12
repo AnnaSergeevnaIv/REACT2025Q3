@@ -12,9 +12,10 @@ import {
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { downloadCSV } from '../../services/csv-export';
+
 export function Footer() {
   const checkedCharacters = useAppSelector(selectCheckedCharacters);
-  const checkedCount = checkedCharacters.length;
+  const checkedCount = checkedCharacters ? checkedCharacters.length : 0;
   const dispatch = useAppDispatch();
   const unselectClickHandle = () => {
     dispatch(stateCleared());

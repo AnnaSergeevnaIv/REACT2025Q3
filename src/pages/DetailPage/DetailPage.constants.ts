@@ -11,4 +11,4 @@ export const DETAIL_PAGE_BUTTON_CLASS =
 export const DETAIL_PAGE_TEST_ID = 'detail-page';
 export const DETAIL_PAGE_BUTTON_NAME = 'Back';
 export const DETAIL_PAGE_LOADING = 'Loading...';
-export const DETAIL_PAGE_TEST_ERROR = 'Test error';
+export const DETAIL_PAGE_ERROR = 'Something went wrong';
