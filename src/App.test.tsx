@@ -1,15 +1,21 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import * as network from './services/network-requests/network-requests';
+import { render, screen } from '@testing-library/react';
 import App from './App';
-import { mockPhotoCharacterData } from './test-utils/mocks';
-import { localStoragePhotoKey } from './constants/constants';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
+
 vi.mock('react-router', () => {
   const original = vi.importActual('react-router');
   return {
     ...original,
-    Outlet: () => <div data-testid="mock-outlet" />,
+    Outlet: () => <div data-testId="mock-outlet" />,
   };
 });
+vi.mock('../../hooks/useAppSelector', () => ({
+  useAppSelector: vi.fn(),
+}));
+vi.mock('../../hooks/useAppDispatch', () => ({
+  useAppDispatch: vi.fn(),
+}));
 
 describe('App component', () => {
   beforeEach(() => {
@@ -18,31 +24,11 @@ describe('App component', () => {
   });
 
   test('renders App and displays initial content', () => {
-    render(<App />);
-    expect(screen.getByTestId('mock-outlet')).toBeInTheDocument();
-  });
-
-  test('calls getPhotoData on mount if no data in localStorage', async () => {
-    const getData = vi
-      .spyOn(network, 'getPhotoData')
-      .mockResolvedValue(mockPhotoCharacterData);
-
-    render(<App />);
-    await waitFor(() => {
-      expect(getData).toHaveBeenCalled();
-    });
-  });
-
-  test('does NOT call getPhotoData if data is in localStorage', () => {
-    const getData = vi
-      .spyOn(network, 'getPhotoData')
-      .mockResolvedValue(mockPhotoCharacterData);
-
-    localStorage.setItem(
-      localStoragePhotoKey,
-      JSON.stringify(mockPhotoCharacterData)
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
     );
-    render(<App />);
-    expect(getData).not.toHaveBeenCalled();
+    expect(screen.getByTestId('mock-outlet')).toBeInTheDocument();
   });
 });

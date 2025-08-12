@@ -11,6 +11,9 @@ import placeholder from '../../assets/placeholder.png';
 const mocks = {
   navigate: vi.fn(),
 };
+vi.mock('../../hooks/useAppSelector', () => ({
+  useAppSelector: vi.fn().mockReturnValue([]),
+}));
 
 vi.mock('react-router', async () => {
   const original =
@@ -33,6 +36,7 @@ import {
   DETAIL_PAGE_TEST_ID,
 } from './DetailPage.constants';
 import { PhotoContext } from '../../services/PhotoContext';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 describe('DetailPage component', () => {
   beforeEach(() => {
@@ -77,11 +81,16 @@ describe('DetailPage component', () => {
   });
 
   test('displays placeholder image when character image fails to load', () => {
+    (useAppSelector as unknown as Mock).mockReturnValue(undefined);
     render(<DetailPage />);
     expect(screen.getByRole('img')).toHaveAttribute('src', placeholder);
   });
 
   test('displays character image when available', () => {
+    (useAppSelector as unknown as Mock).mockReturnValue({
+      ...mockFullCharacterData,
+      image: mockImage,
+    });
     (reactRouter.useRouteLoaderData as Mock).mockReturnValue({
       data: { ...mockFullCharacterData, image: mockImage },
       error: undefined,

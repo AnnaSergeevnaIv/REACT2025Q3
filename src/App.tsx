@@ -1,10 +1,15 @@
 import { useEffect } from 'react';
-import { getPhotoData } from './services/network-requests/network-requests';
-import { localStoragePhotoKey } from './constants/constants';
 import { ErrorBoundary } from './services/ErrorBoundary';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { Outlet } from 'react-router';
-import { PhotoContext } from './services/PhotoContext';
+import { ThemeContext, type Theme } from './services/ThemeContext';
+import { useAppSelector } from './hooks/useAppSelector';
+import {
+  fetchPhotos,
+  selectAllPhotos,
+  selectPhotoStatus,
+} from './store/photosSlice';
+import { useAppDispatch } from './hooks/useAppDispatch';
 
 export interface PhotoCharacterData {
   name: string;
@@ -12,28 +17,29 @@ export interface PhotoCharacterData {
 }
 
 export default function App() {
-  const [photoData, setPhotoData] = useLocalStorage<PhotoCharacterData[]>(
-    localStoragePhotoKey,
-    []
-  );
+  const photoData = useAppSelector(selectAllPhotos);
+  const photoDataStatus = useAppSelector(selectPhotoStatus);
+  const dispatch = useAppDispatch();
+
+  const [theme, setTheme] = useLocalStorage<Theme>('theme', 'dark');
   useEffect(() => {
     async function getPhotos() {
-      if (photoData.length > 0) {
-        return;
+      if (photoDataStatus === 'idle') {
+        dispatch(fetchPhotos());
       }
-      const photoDataFromAPI = await getPhotoData();
-      setPhotoData(photoDataFromAPI);
     }
     getPhotos();
-  }, [photoData]);
+  }, [photoData, dispatch, photoDataStatus]);
 
   return (
     <ErrorBoundary
       fallback={<h1>Something went wrong. Please refresh the page </h1>}
     >
-      <PhotoContext.Provider value={photoData}>
-        <Outlet />
-      </PhotoContext.Provider>
+      <ThemeContext.Provider value={{ theme, setTheme }}>
+        <div className={`${theme} app-container`}>
+          <Outlet />
+        </div>
+      </ThemeContext.Provider>
     </ErrorBoundary>
   );
 }

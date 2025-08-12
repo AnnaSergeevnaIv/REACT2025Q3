@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from 'react';
+import { useContext, useState, type ChangeEvent } from 'react';
 import logo from '../../assets/logo.png';
 import {
   HEADER_ABOUT_BUTTON_NAME,
@@ -6,8 +6,11 @@ import {
   HEADER_IMAGE_CLASS,
   HEADER_INPUT_CLASS,
   HEADER_SEARCH_BUTTON_NAME,
+  HEADER_THEME_DARK_BUTTON_NAME,
+  HEADER_THEME_LIGHT_BUTTON_NAME,
 } from './Header.constant';
 import { useNavigate } from 'react-router';
+import { ThemeContext } from '../../services/ThemeContext';
 
 export interface HeaderProps {
   clickHandle: (value: string) => void;
@@ -17,9 +20,13 @@ export interface HeaderProps {
 export function Header({ clickHandle, value }: HeaderProps) {
   const [inputValue, setInputValue] = useState(value);
   const navigate = useNavigate();
+  const { theme, setTheme } = useContext(ThemeContext);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
+
+  const handleThemeToggle = () =>
+    setTheme(theme === 'light' ? 'dark' : 'light');
 
   return (
     <header className={HEADER_CLASS}>
@@ -44,6 +51,11 @@ export function Header({ clickHandle, value }: HeaderProps) {
         }}
       >
         {HEADER_ABOUT_BUTTON_NAME}
+      </button>
+      <button onClick={handleThemeToggle}>
+        {theme === 'light'
+          ? HEADER_THEME_DARK_BUTTON_NAME
+          : HEADER_THEME_LIGHT_BUTTON_NAME}
       </button>
     </header>
   );

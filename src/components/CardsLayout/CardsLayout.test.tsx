@@ -1,9 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { CardsLayout } from './CardsLayout';
-import {
-  mockCharactersData,
-  mockPhotoCharacterData,
-} from '../../test-utils/mocks';
+import { mockCharactersData } from '../../test-utils/mocks';
 import type { Mock } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import {
@@ -11,7 +8,7 @@ import {
   CARDS_LAYOUT_BUTTON_PREV_NAME,
   CARDS_LAYOUT_LOADING,
 } from './CardsLayout.constants';
-
+import { CARD_TEST_ID } from '../Card';
 const mocks = {
   navigate: vi.fn(),
 };
@@ -26,9 +23,14 @@ vi.mock('react-router', async () => {
     useSearchParams: () => [new URLSearchParams({ page: '2' }), vi.fn()],
   };
 });
+vi.mock('../../hooks/useAppSelector', () => ({
+  useAppSelector: vi.fn(),
+}));
+vi.mock('../../hooks/useAppDispatch', () => ({
+  useAppDispatch: vi.fn(),
+}));
 import * as reactRouter from 'react-router';
-import { CARD_TEST_ID } from '../Card';
-import { PhotoContext } from '../../services/PhotoContext';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 describe('CardsLayout component', () => {
   beforeEach(() => {
@@ -40,6 +42,7 @@ describe('CardsLayout component', () => {
       },
       error: undefined,
     });
+    (useAppSelector as unknown as Mock).mockReturnValue([]);
     mocks.navigate.mockClear();
     localStorage.clear();
   });
@@ -109,16 +112,5 @@ describe('CardsLayout component', () => {
 
     render(<CardsLayout />);
     expect(screen.getByText(`Error: ${errorMessage}`)).toBeInTheDocument();
-  });
-
-  test('renders cards with images from PhotoContext', () => {
-    render(
-      <PhotoContext.Provider value={mockPhotoCharacterData}>
-        <CardsLayout />
-      </PhotoContext.Provider>
-    );
-    expect(
-      screen.getByAltText(`${mockPhotoCharacterData[0].name} image`)
-    ).toHaveAttribute('src', mockPhotoCharacterData[0].image);
   });
 });

@@ -12,6 +12,8 @@ import {
 } from './services/network-requests/network-requests.ts';
 import { AboutPage } from './pages/AboutPage';
 import { DetailPage } from './pages/DetailPage';
+import { Provider } from 'react-redux';
+import { store } from './store/store.ts';
 
 export const router = createBrowserRouter([
   {
@@ -43,11 +45,11 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: '*',
+        element: <NoMatch />,
+      },
     ],
-  },
-  {
-    path: '*',
-    element: <NoMatch />,
   },
 ]);
 
@@ -55,7 +57,9 @@ const root = document.getElementById('root');
 if (root) {
   createRoot(root).render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </StrictMode>
   );
 }
