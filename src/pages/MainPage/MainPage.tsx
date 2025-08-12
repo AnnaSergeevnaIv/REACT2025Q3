@@ -5,6 +5,7 @@ import { type CharacterData } from '../../services/network-requests';
 import { CardsLayout } from '../../components/CardsLayout';
 import { Header } from '../../components/Header';
 import {
+  LOADING_TEXT,
   localStorageSearchKey,
   MAIN_PAGE_CLASS,
   MAIN_PAGE_H1_CLASS,
@@ -17,7 +18,7 @@ interface MainPageState {
   error: boolean;
   requestError: string;
 }
-interface MainProps {
+export interface MainProps {
   photoData: PhotoCharacterData[];
 }
 
@@ -81,10 +82,10 @@ export class MainPage extends Component<MainProps, MainPageState> {
 
   render(): ReactNode {
     return (
-      <div className={MAIN_PAGE_CLASS}>
+      <div className={MAIN_PAGE_CLASS} data-testid="main-page">
         <Header clickHandle={this.handleClick} value={this.state.inputValue} />
         {this.state.loading ? (
-          <h1>Loading...</h1>
+          <h1>{LOADING_TEXT}</h1>
         ) : this.state.requestError ? (
           <h1 className={MAIN_PAGE_H1_CLASS}>{this.state.requestError}</h1>
         ) : (

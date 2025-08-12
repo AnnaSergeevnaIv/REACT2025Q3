@@ -6,7 +6,7 @@ import {
   HEADER_INPUT_CLASS,
 } from './Header.constant';
 
-interface HeaderProps {
+export interface HeaderProps {
   clickHandle: (value: string) => void;
   value: string;
 }

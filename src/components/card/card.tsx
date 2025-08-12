@@ -6,7 +6,7 @@ import { CARD_CONTAINER_CLASS, CARD_IMAGE_CLASS } from './Card.constants';
 export class Card extends Component<CharacterData> {
   render(): ReactNode {
     return (
-      <div className={CARD_CONTAINER_CLASS}>
+      <div className={CARD_CONTAINER_CLASS} data-testid="card">
         <img
           src={this.props.image ? this.props.image : placeholder}
           alt={`${this.props.name} image`}

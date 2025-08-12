@@ -3,7 +3,7 @@ import { type CharacterData } from '../../services/network-requests';
 import { CARDS_LAYOUT_CONTAINER_CLASS } from './CardsLayout.constants';
 import { Card } from '../Card';
 
-interface CardsLayoutProps {
+export interface CardsLayoutProps {
   characters: CharacterData[];
 }
 
