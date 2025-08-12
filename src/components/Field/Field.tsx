@@ -3,6 +3,7 @@ import {
   FIELD_CONTAINER_CLASS,
   FIELD_ERROR_CLASS,
   FIELD_INPUT_CLASS,
+  FIELD_INPUT_CONTAINER_CLASS,
 } from './Field.constants';
 import './Field.css';
 interface FieldProps {
@@ -12,6 +13,7 @@ interface FieldProps {
   id: string;
   type: React.InputHTMLAttributes<HTMLInputElement>['type'];
   ref?: React.RefObject<HTMLInputElement | null>;
+  errorIsNeeded: boolean;
 }
 export default function Field({
   name,
@@ -20,6 +22,7 @@ export default function Field({
   type,
   ref,
   error = '',
+  errorIsNeeded,
 }: FieldProps) {
   useEffect(() => {
     if (!ref) return;
@@ -28,18 +31,20 @@ export default function Field({
   }, [ref]);
   return (
     <div className={FIELD_CONTAINER_CLASS}>
-      <label htmlFor={id}>{text}</label>
-      <input
-        ref={ref}
-        className={FIELD_INPUT_CLASS}
-        type={type}
-        id={id}
-        placeholder={`Enter ${text.toLowerCase()}`}
-        name={name}
-        value={type === 'radio' ? id : undefined}
-        accept={type === 'file' ? 'image/png,image/jpeg' : undefined}
-      />
-      <p className={FIELD_ERROR_CLASS}>{error}</p>
+      <div className={FIELD_INPUT_CONTAINER_CLASS}>
+        <label htmlFor={id}>{text}</label>
+        <input
+          ref={ref}
+          className={FIELD_INPUT_CLASS}
+          type={type}
+          id={id}
+          placeholder={`Enter ${text.toLowerCase()}`}
+          name={name}
+          value={type === 'radio' ? id : undefined}
+          accept={type === 'file' ? 'image/png,image/jpeg' : undefined}
+        />
+      </div>
+      {errorIsNeeded ? <p className={FIELD_ERROR_CLASS}>{error}</p> : null}
     </div>
   );
 }

@@ -6,3 +6,5 @@ export type TextFields = Omit<
 type InputType = React.InputHTMLAttributes<HTMLInputElement>['type'];
 
 export type InputTypeMap = { [K in keyof TextFields]: InputType };
+
+export type ValidationError = Record<string, string>;
