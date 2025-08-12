@@ -16,7 +16,7 @@ export const formSchema = z
     }, z.number().nonnegative()),
     email: z.string().email(),
     gender: z.enum(['male', 'female'], { error: 'Gender must be chosen' }),
-    accept: z.literal('true', { error: 'You must accept the terms' }),
+    accept: z.stringbool({ error: 'Terms must be accepted' }),
     password: z
       .string()
       .min(8, { error: 'Password must be at least 8 characters long' })
@@ -28,21 +28,17 @@ export const formSchema = z
     country: z.enum(COUNTRIES, {
       error: 'Country must be chosen from selected values',
     }),
-    image: z
-      .file()
-      .optional()
-      .refine(
-        (file) => {
-          if (!file) return true;
-          if (!(file instanceof File)) return false;
-          if (file.size > 1_000_000) return false;
-          if (!['image/png', 'image/jpeg'].includes(file.type)) return false;
-          return true;
-        },
-        {
-          message: 'File must be a PNG or JPEG image and less than 1MB',
-        }
-      ),
+    image: z.any().refine(
+      (file) => {
+        if (file.name === '' && file.size === 0) return true;
+        if (file.size > 1_000_000) return false;
+        if (!['image/png', 'image/jpeg'].includes(file.type)) return false;
+        return true;
+      },
+      {
+        message: 'File must be PNG or JPEG and less than 1MB',
+      }
+    ),
   })
   .refine((data) => data.password === data.confirmPassword, {
     error: 'Passwords do not match',

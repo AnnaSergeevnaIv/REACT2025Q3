@@ -1,10 +1,10 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { type FormData } from './countriesSlice.types';
+import { type FormData } from '../validation/schema';
 import type { RootState } from './store';
 const initialState: FormData = {
   name: '',
-  gender: '',
-  accept: false,
+  gender: 'male',
+  accept: true,
   image: '',
   country: '',
   age: 1,
