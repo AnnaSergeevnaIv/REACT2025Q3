@@ -1,7 +1,7 @@
 import { type FormDataType } from '../../validation/schema';
 export type TextFields = Omit<
   FormDataType,
-  'gender' | 'accept' | 'image' | 'country' | 'age'
+  'gender' | 'accepted' | 'image' | 'country' | 'age'
 > & { age: string };
 type InputType = React.InputHTMLAttributes<HTMLInputElement>['type'];
 

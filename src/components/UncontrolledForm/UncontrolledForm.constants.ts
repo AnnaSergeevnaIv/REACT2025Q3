@@ -4,7 +4,7 @@ export const FORM_CONTAINER_CLASS = 'form-container';
 export const FORM_RADIO_CLASS = 'radio-container';
 export const FORM = {
   gender: 'Gender',
-  accept: 'Accept Terms and Conditions agreement ',
+  accepted: 'Accept Terms and Conditions agreement ',
   image: 'Image',
   country: 'Country',
 } as const;

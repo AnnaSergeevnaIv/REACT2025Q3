@@ -32,6 +32,7 @@ export default function UncontrolledForm({
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData.entries());
     const result = formSchema.safeParse(data);
+    console.log(data);
     if (!result.success) {
       const errors: ValidationError = {};
       const flattened = result.error.flatten();
@@ -44,13 +45,13 @@ export default function UncontrolledForm({
     } else {
       const file = fileInputRef.current?.files?.[0] ?? null;
       const image = file ? await fileToBase64(file) : '';
-      result.data['name'] = image;
-      dispatch(dataAdded(result.data));
+      const data = { ...result.data, image: image };
+      dispatch(dataAdded(data));
       setIsModalOpen(false);
     }
   };
 
-  const acceptName = FORM.accept.split(' ')[0].toLowerCase();
+  const acceptName = FORM.accepted.split(' ')[0].toLowerCase() + 'ed';
 
   return (
     <form className={FORM_CONTAINER_CLASS} ref={ref} onSubmit={submitHandle}>
@@ -77,7 +78,7 @@ export default function UncontrolledForm({
       />
       <Field
         name={acceptName}
-        text={FORM.accept}
+        text={FORM.accepted}
         type="checkbox"
         id={acceptName}
         errorIsNeeded={true}

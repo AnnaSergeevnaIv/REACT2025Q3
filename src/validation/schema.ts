@@ -16,7 +16,16 @@ export const formSchema = z
     }, z.number().nonnegative()),
     email: z.string().email(),
     gender: z.enum(['male', 'female'], { error: 'Gender must be chosen' }),
-    accept: z.stringbool({ error: 'Terms must be accepted' }),
+    accepted: z
+      .string()
+      .optional()
+      .refine(
+        (string) => {
+          if (!string) return false;
+          return true;
+        },
+        { error: 'Term must be accepted' }
+      ),
     password: z
       .string()
       .min(8, { error: 'Password must be at least 8 characters long' })
@@ -38,7 +47,7 @@ export const formSchema = z
           return true;
         },
         {
-          message: 'File must be PNG or JPEG and less than 1MB',
+          error: 'File must be PNG or JPEG and less than 1MB',
         }
       )
       .transform(() => 'image'),
