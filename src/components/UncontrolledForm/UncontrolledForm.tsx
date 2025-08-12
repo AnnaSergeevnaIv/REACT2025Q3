@@ -11,12 +11,22 @@ import CountryAutocomplete from '../CountryAutocomplete';
 import './UncontrolledForm.css';
 import { formSchema } from '../../validation/schema';
 import type { ValidationError } from './UncontrolledForm.types';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { dataAdded } from '../../store/formDataSlice';
+import { fileToBase64 } from '../../utils/fileToBase64';
 
-export default function UncontrolledForm() {
+export default function UncontrolledForm({
+  setIsModalOpen,
+}: {
+  setIsModalOpen: (value: boolean) => void;
+}) {
   const ref = useRef<HTMLFormElement | null>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [errors, setErrors] = useState<ValidationError>({});
-  const submitHandle: FormEventHandler<HTMLFormElement> = (event) => {
+  const dispatch = useAppDispatch();
+
+  const submitHandle: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
     if (!ref.current) return;
     const formData = new FormData(event.currentTarget);
@@ -31,9 +41,13 @@ export default function UncontrolledForm() {
         }
       }
       setErrors(errors);
-      console.log(errors);
+    } else {
+      const file = fileInputRef.current?.files?.[0] ?? null;
+      const image = file ? await fileToBase64(file) : '';
+      result.data['name'] = image;
+      dispatch(dataAdded(result.data));
+      setIsModalOpen(false);
     }
-    console.log(data);
   };
 
   const acceptName = FORM.accept.split(' ')[0].toLowerCase();
@@ -76,6 +90,7 @@ export default function UncontrolledForm() {
         id={FORM.image.toLowerCase()}
         errorIsNeeded={true}
         error={errors[FORM.image.toLowerCase()] ?? ''}
+        ref={fileInputRef}
       />
       <CountryAutocomplete error={errors[FORM.country.toLowerCase()] ?? ''} />
       <input type="submit" />

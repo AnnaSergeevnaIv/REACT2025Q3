@@ -28,17 +28,20 @@ export const formSchema = z
     country: z.enum(COUNTRIES, {
       error: 'Country must be chosen from selected values',
     }),
-    image: z.any().refine(
-      (file) => {
-        if (file.name === '' && file.size === 0) return true;
-        if (file.size > 1_000_000) return false;
-        if (!['image/png', 'image/jpeg'].includes(file.type)) return false;
-        return true;
-      },
-      {
-        message: 'File must be PNG or JPEG and less than 1MB',
-      }
-    ),
+    image: z
+      .file()
+      .refine(
+        (file) => {
+          if (file.name === '' && file.size === 0) return true;
+          if (file.size > 1_000_000) return false;
+          if (!['image/png', 'image/jpeg'].includes(file.type)) return false;
+          return true;
+        },
+        {
+          message: 'File must be PNG or JPEG and less than 1MB',
+        }
+      )
+      .transform(() => 'image'),
   })
   .refine((data) => data.password === data.confirmPassword, {
     error: 'Passwords do not match',
@@ -50,4 +53,4 @@ export const formSchema = z
     },
   });
 
-export type FormData = z.infer<typeof formSchema>;
+export type FormDataType = z.infer<typeof formSchema>;

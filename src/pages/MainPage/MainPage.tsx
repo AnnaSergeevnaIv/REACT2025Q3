@@ -1,16 +1,25 @@
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import FormSwitchButtons from '../../components/FormSwitchButtons';
 import Modal from '../../components/Modal';
+import UncontrolledForm from '../../components/UncontrolledForm';
+import ReactHookForm from '../../components/ReactHookForm';
 
 export default function MainPage() {
-  const [form, setForm] = useState<ReactNode>(<></>);
+  const [isFormUncontrolled, setIsFormUncontrolled] = useState<boolean>(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div>
-      <FormSwitchButtons setForm={setForm} setIsModalOpen={setIsModalOpen} />
+      <FormSwitchButtons
+        setIsFormUncontrolled={setIsFormUncontrolled}
+        setIsModalOpen={setIsModalOpen}
+      />
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        {form}
+        {isFormUncontrolled ? (
+          <UncontrolledForm setIsModalOpen={setIsModalOpen} />
+        ) : (
+          <ReactHookForm />
+        )}
       </Modal>
     </div>
   );

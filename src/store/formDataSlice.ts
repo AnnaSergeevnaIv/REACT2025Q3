@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { type FormData } from '../validation/schema';
+import { type FormDataType } from '../validation/schema';
 import type { RootState } from './store';
-const initialState: FormData = {
+const initialState: FormDataType = {
   name: '',
   gender: 'male',
   accept: true,
@@ -16,7 +16,7 @@ export const formDataSlice = createSlice({
   name: 'formData',
   initialState,
   reducers: {
-    dataAdded: (_state, action: PayloadAction<FormData>) => {
+    dataAdded: (_state, action: PayloadAction<FormDataType>) => {
       return action.payload;
     },
   },

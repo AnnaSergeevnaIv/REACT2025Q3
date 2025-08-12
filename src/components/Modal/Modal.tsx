@@ -3,6 +3,7 @@ import { MODAL_CONTENT_CLASS, MODAL_OVERLAY_CLASS } from './Modal.constants';
 import { Fragment, type MouseEventHandler } from 'react';
 import { useEffect } from 'react';
 import './Modal.css';
+
 export default function Modal({
   isOpen,
   onClose,

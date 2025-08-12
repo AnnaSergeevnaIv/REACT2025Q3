@@ -1,6 +1,6 @@
-import { type FormData } from '../../store/countriesSlice.types';
+import { type FormDataType } from '../../validation/schema';
 export type TextFields = Omit<
-  FormData,
+  FormDataType,
   'gender' | 'accept' | 'image' | 'country' | 'age'
 > & { age: string };
 type InputType = React.InputHTMLAttributes<HTMLInputElement>['type'];

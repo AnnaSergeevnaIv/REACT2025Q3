@@ -1,23 +1,20 @@
-import type { ReactNode } from 'react';
-import ReactHookForm from '../ReactHookForm';
-import UncontrolledForm from '../UncontrolledForm';
 import { BUTTONS_CONTAINER_CLASS } from './FormSwitchButtons.constants';
 import './FormSwitchButtons.css';
 
 interface FormSwitchButtonsProps {
-  setForm: (node: ReactNode) => void;
+  setIsFormUncontrolled: (value: boolean) => void;
   setIsModalOpen: (isOpen: boolean) => void;
 }
 
 export default function FormSwitchButtons({
-  setForm,
+  setIsFormUncontrolled,
   setIsModalOpen,
 }: FormSwitchButtonsProps) {
   return (
     <div className={BUTTONS_CONTAINER_CLASS}>
       <button
         onClick={() => {
-          setForm(<UncontrolledForm />);
+          setIsFormUncontrolled(true);
           setIsModalOpen(true);
         }}
       >
@@ -25,7 +22,7 @@ export default function FormSwitchButtons({
       </button>
       <button
         onClick={() => {
-          setForm(<ReactHookForm />);
+          setIsFormUncontrolled(false);
           setIsModalOpen(true);
         }}
       >
