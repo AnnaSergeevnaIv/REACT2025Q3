@@ -38,8 +38,11 @@ export default function Field({
       <div className={FIELD_INPUT_CONTAINER_CLASS}>
         <label htmlFor={id}>{text}</label>
         <input
-          {...(register ? { ...register(name) } : null)}
-          {...(ref ? (ref = { ...ref }) : undefined)}
+          {...(register ? register(name) : {})}
+          ref={(el) => {
+            if (ref) ref.current = el;
+            if (register) register(name).ref(el);
+          }}
           className={FIELD_INPUT_CLASS}
           type={type}
           id={id}
