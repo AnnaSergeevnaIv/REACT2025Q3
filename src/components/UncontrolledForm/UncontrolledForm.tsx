@@ -1,5 +1,6 @@
 import { useRef, useState, type FormEventHandler } from 'react';
 import {
+  acceptName,
   FORM,
   FORM_CONTAINER_CLASS,
   TEXT_FIELD_TYPES,
@@ -9,11 +10,12 @@ import Field from '../Field';
 import RadioField from '../RadioField';
 import CountryAutocomplete from '../CountryAutocomplete';
 import './UncontrolledForm.css';
-import { formSchema } from '../../validation/schema';
+import { formSchema, type FormDataType } from '../../validation/schema';
 import type { ValidationError } from './UncontrolledForm.types';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { dataAdded } from '../../store/formDataSlice';
 import { fileToBase64 } from '../../utils/fileToBase64';
+export type FormReduxDataType = Omit<FormDataType, 'image'> & { image: string };
 
 export default function UncontrolledForm({
   setIsModalOpen,
@@ -31,8 +33,11 @@ export default function UncontrolledForm({
     if (!ref.current) return;
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData.entries());
-    const result = formSchema.safeParse(data);
-    console.log(data);
+    const dataForValidation = {
+      ...data,
+      accepted: data.accepted === 'on',
+    };
+    const result = formSchema.safeParse(dataForValidation);
     if (!result.success) {
       const errors: ValidationError = {};
       const flattened = result.error.flatten();
@@ -44,14 +49,13 @@ export default function UncontrolledForm({
       setErrors(errors);
     } else {
       const file = fileInputRef.current?.files?.[0] ?? null;
+      console.log(file);
       const image = file ? await fileToBase64(file) : '';
-      const data = { ...result.data, image: image };
+      const data: FormReduxDataType = { ...result.data, image: image };
       dispatch(dataAdded(data));
       setIsModalOpen(false);
     }
   };
-
-  const acceptName = FORM.accepted.split(' ')[0].toLowerCase() + 'ed';
 
   return (
     <form className={FORM_CONTAINER_CLASS} ref={ref} onSubmit={submitHandle}>
@@ -73,11 +77,12 @@ export default function UncontrolledForm({
       )}
       <RadioField
         legend={FORM.gender}
+        name="gender"
         radioNames={['Female', 'Male']}
         error={errors[FORM.gender.toLowerCase()] ?? ''}
       />
       <Field
-        name={acceptName}
+        name="accepted"
         text={FORM.accepted}
         type="checkbox"
         id={acceptName}
@@ -85,7 +90,7 @@ export default function UncontrolledForm({
         error={errors[acceptName] ?? ''}
       />
       <Field
-        name={FORM.image.toLowerCase()}
+        name="image"
         text={FORM.image}
         type="file"
         id={FORM.image.toLowerCase()}

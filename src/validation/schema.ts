@@ -8,21 +8,23 @@ export const formSchema = z
       .refine((val) => /^[A-ZА-Я][a-zа-я]*$/.test(val), {
         error: 'The name must be capitalized',
       }),
-    age: z.preprocess((val) => {
-      if (typeof val === 'string') {
-        return Number.parseInt(val);
-      }
-      return val;
-    }, z.number().nonnegative()),
+    age: z.string().refine(
+      (string) => {
+        if (string === '') return false;
+        if (Number(string) < 0) return false;
+        return true;
+      },
+      { error: 'Age must be written and to be >= 0' }
+    ),
     email: z.string().email(),
     gender: z.enum(['male', 'female'], { error: 'Gender must be chosen' }),
     accepted: z
-      .string()
+      .boolean()
       .optional()
       .refine(
-        (string) => {
-          if (!string) return false;
-          return true;
+        (bool) => {
+          if (bool) return true;
+          return false;
         },
         { error: 'Term must be accepted' }
       ),
@@ -38,10 +40,16 @@ export const formSchema = z
       error: 'Country must be chosen from selected values',
     }),
     image: z
-      .file()
+      .unknown()
+      .transform((file) => {
+        if (file instanceof FileList) return file[0] ?? null;
+        if (Array.isArray(file)) return file[0] ?? null;
+        return file;
+      })
       .refine(
-        (file) => {
-          if (file.name === '' && file.size === 0) return true;
+        (file): file is File | null => {
+          if (file === null) return false;
+          if (!(file instanceof File)) return false;
           if (file.size > 1_000_000) return false;
           if (!['image/png', 'image/jpeg'].includes(file.type)) return false;
           return true;
@@ -49,8 +57,7 @@ export const formSchema = z
         {
           error: 'File must be PNG or JPEG and less than 1MB',
         }
-      )
-      .transform(() => 'image'),
+      ),
   })
   .refine((data) => data.password === data.confirmPassword, {
     error: 'Passwords do not match',

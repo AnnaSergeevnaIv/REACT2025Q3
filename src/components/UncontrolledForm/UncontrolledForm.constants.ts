@@ -23,3 +23,4 @@ export const TEXT_FIELD_TYPES: InputTypeMap = {
   password: 'password',
   confirmPassword: 'password',
 };
+export const acceptName = FORM.accepted.split(' ')[0].toLowerCase() + 'ed';

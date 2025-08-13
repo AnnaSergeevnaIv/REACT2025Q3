@@ -3,14 +3,22 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import './CountryAutocomplete.css';
 import {
   COUNTRY_CONTAINER_CLASS,
-  COUNTRY_ERROR,
   COUNTRY_INPUT_CLASS,
   COUNTRY_INPUT_CONTAINER_CLASS,
 } from './CountryAutocomplete.constants';
 import { useState, type ChangeEventHandler } from 'react';
 import { filterCountries } from './CountryAutocomplete.utils';
+import ErrorMessage from '../ErrorMessage';
+import type { UseFormRegister } from 'react-hook-form';
+import type { FormDataType } from '../../validation/schema';
 
-export default function CountryAutocomplete({ error }: { error: string }) {
+export default function CountryAutocomplete({
+  error,
+  register,
+}: {
+  error: string;
+  register?: UseFormRegister<FormDataType>;
+}) {
   const countriesFromRedux = useAppSelector(selectCountries);
   const [countries, setCountries] = useState<string[]>(countriesFromRedux);
   const onChangeHandle: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -28,6 +36,7 @@ export default function CountryAutocomplete({ error }: { error: string }) {
           onChange={onChangeHandle}
           placeholder="Enter country"
           autoComplete="off"
+          {...(register ? { ...register('country') } : null)}
         />
         <datalist id="countries">
           {countries.map((country: string) => (
@@ -35,7 +44,7 @@ export default function CountryAutocomplete({ error }: { error: string }) {
           ))}
         </datalist>
       </div>
-      <p className={COUNTRY_ERROR}>{error}</p>
+      <ErrorMessage message={error} />
     </div>
   );
 }

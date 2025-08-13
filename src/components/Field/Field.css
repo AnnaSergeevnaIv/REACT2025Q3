@@ -15,10 +15,3 @@
 .field-input {
   margin-left: auto;
 }
-
-.field-error {
-  height: 1rem;
-  margin: 0;
-  padding: 1rem 0;
-  color: red;
-}

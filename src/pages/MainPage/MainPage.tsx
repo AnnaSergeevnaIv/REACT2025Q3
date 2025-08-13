@@ -20,7 +20,7 @@ export default function MainPage() {
         {isFormUncontrolled ? (
           <UncontrolledForm setIsModalOpen={setIsModalOpen} />
         ) : (
-          <ReactHookForm />
+          <ReactHookForm setIsModalOpen={setIsModalOpen} />
         )}
       </Modal>
     </div>

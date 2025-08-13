@@ -1,19 +1,22 @@
 import { useEffect } from 'react';
 import {
   FIELD_CONTAINER_CLASS,
-  FIELD_ERROR_CLASS,
   FIELD_INPUT_CLASS,
   FIELD_INPUT_CONTAINER_CLASS,
 } from './Field.constants';
 import './Field.css';
+import ErrorMessage from '../ErrorMessage';
+import type { UseFormRegister } from 'react-hook-form';
+import type { FormDataType } from '../../validation/schema';
 interface FieldProps {
-  name: string;
+  name: keyof FormDataType;
   text: string;
   error?: string;
   id: string;
   type: React.InputHTMLAttributes<HTMLInputElement>['type'];
   ref?: React.RefObject<HTMLInputElement | null>;
   errorIsNeeded: boolean;
+  register?: UseFormRegister<FormDataType>;
 }
 export default function Field({
   name,
@@ -23,6 +26,7 @@ export default function Field({
   ref,
   error = '',
   errorIsNeeded,
+  register,
 }: FieldProps) {
   useEffect(() => {
     if (!ref) return;
@@ -34,7 +38,8 @@ export default function Field({
       <div className={FIELD_INPUT_CONTAINER_CLASS}>
         <label htmlFor={id}>{text}</label>
         <input
-          ref={ref}
+          {...(register ? { ...register(name) } : null)}
+          {...(ref ? (ref = { ...ref }) : undefined)}
           className={FIELD_INPUT_CLASS}
           type={type}
           id={id}
@@ -44,7 +49,7 @@ export default function Field({
           accept={type === 'file' ? 'image/png,image/jpeg' : undefined}
         />
       </div>
-      {errorIsNeeded ? <p className={FIELD_ERROR_CLASS}>{error}</p> : null}
+      {errorIsNeeded ? <ErrorMessage message={error} /> : null}
     </div>
   );
 }
