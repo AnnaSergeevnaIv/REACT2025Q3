@@ -4,10 +4,10 @@ import type { RootState } from './store';
 export const initialState: FormReduxDataType = {
   name: '',
   gender: 'male',
-  accepted: '',
+  accepted: false,
   image: '',
   country: '',
-  age: 1,
+  age: '1',
   email: '',
   password: '',
   confirmPassword: '',
