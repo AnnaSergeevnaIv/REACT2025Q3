@@ -1,4 +1,8 @@
-import { BUTTONS_CONTAINER_CLASS } from './FormSwitchButtons.constants';
+import {
+  BUTTON_REACT_HOOK_FORM,
+  BUTTON_UNCONTROLLED_FORM,
+  BUTTONS_CONTAINER_CLASS,
+} from './FormSwitchButtons.constants';
 import './FormSwitchButtons.css';
 
 interface FormSwitchButtonsProps {
@@ -18,7 +22,7 @@ export default function FormSwitchButtons({
           setIsModalOpen(true);
         }}
       >
-        Open Uncontrolled Form
+        {BUTTON_UNCONTROLLED_FORM}
       </button>
       <button
         onClick={() => {
@@ -26,7 +30,7 @@ export default function FormSwitchButtons({
           setIsModalOpen(true);
         }}
       >
-        Open React Hook Form
+        {BUTTON_REACT_HOOK_FORM}
       </button>
     </div>
   );

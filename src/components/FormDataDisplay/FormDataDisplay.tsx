@@ -7,6 +7,7 @@ import {
   DISPLAY_IMAGE,
   DISPLAY_ROW_CONTAINER_CLASS,
   DISPLAY_ROW_VALUE_CLASS,
+  DISPLAY_TEST_ID,
 } from './FormDataDisplay.constants';
 import type { FormDataType } from '../../validation/schema';
 import './FormDataDisplay.css';
@@ -38,6 +39,7 @@ export default function FormDataDisplay() {
     return (
       <div
         className={`${DISPLAY_CONTAINER_CLASS} ${isDataNew ? DISPLAY_CONTAINER_COLOR_CLASS : ''}`}
+        data-testId={DISPLAY_TEST_ID}
       >
         {keys.map((elem) =>
           elem === 'image' ? (

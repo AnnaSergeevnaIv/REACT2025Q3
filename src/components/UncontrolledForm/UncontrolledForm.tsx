@@ -15,6 +15,7 @@ import type { ValidationError } from './UncontrolledForm.types';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { dataAdded } from '../../store/formDataSlice';
 import { fileToBase64 } from '../../utils/fileToBase64';
+import { flatErrors } from '../../utils/flatErrors';
 export type FormReduxDataType = Omit<FormDataType, 'image'> & { image: string };
 
 export default function UncontrolledForm({
@@ -39,17 +40,10 @@ export default function UncontrolledForm({
     };
     const result = formSchema.safeParse(dataForValidation);
     if (!result.success) {
-      const errors: ValidationError = {};
-      const flattened = result.error.flatten();
-      for (const [field, messages] of Object.entries(flattened.fieldErrors)) {
-        if (messages && messages.length > 0) {
-          errors[field] = messages[0];
-        }
-      }
+      const errors = flatErrors(result.error);
       setErrors(errors);
     } else {
       const file = fileInputRef.current?.files?.[0] ?? null;
-      console.log(file);
       const image = file ? await fileToBase64(file) : '';
       const data: FormReduxDataType = { ...result.data, image: image };
       dispatch(dataAdded(data));
@@ -58,7 +52,12 @@ export default function UncontrolledForm({
   };
 
   return (
-    <form className={FORM_CONTAINER_CLASS} ref={ref} onSubmit={submitHandle}>
+    <form
+      className={FORM_CONTAINER_CLASS}
+      ref={ref}
+      onSubmit={submitHandle}
+      data-testid="uncontrolled-form"
+    >
       {(Object.keys(TEXT_FIELDS) as Array<keyof typeof TEXT_FIELDS>).map(
         (field, index) => {
           return (

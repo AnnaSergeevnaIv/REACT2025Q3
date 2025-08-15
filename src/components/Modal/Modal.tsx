@@ -1,5 +1,10 @@
 import { createPortal } from 'react-dom';
-import { MODAL_CONTENT_CLASS, MODAL_OVERLAY_CLASS } from './Modal.constants';
+import {
+  MODAL_CONTENT_CLASS,
+  MODAL_CONTENT_TEXT_ID,
+  MODAL_OVERLAY_CLASS,
+  MODAL_OVERLAY_TEXT_ID,
+} from './Modal.constants';
 import { Fragment, type MouseEventHandler } from 'react';
 import { useEffect } from 'react';
 import './Modal.css';
@@ -29,12 +34,17 @@ export default function Modal({
 
   return createPortal(
     <Fragment>
-      <div className={MODAL_OVERLAY_CLASS} onClick={onClose}>
+      <div
+        className={MODAL_OVERLAY_CLASS}
+        onClick={onClose}
+        data-testid={MODAL_OVERLAY_TEXT_ID}
+      >
         <div
           className={MODAL_CONTENT_CLASS}
           aria-modal="true"
           role="dialog"
           onClick={contentClickHandle}
+          data-testid={MODAL_CONTENT_TEXT_ID}
         >
           {children}
         </div>

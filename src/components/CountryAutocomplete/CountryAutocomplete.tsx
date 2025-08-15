@@ -27,7 +27,7 @@ export default function CountryAutocomplete({
   return (
     <div className={COUNTRY_CONTAINER_CLASS}>
       <div className={COUNTRY_INPUT_CONTAINER_CLASS}>
-        <label htmlFor="country">Country</label>
+        <label htmlFor="country">Country (close DevTools)</label>
         <input
           id="country"
           name="country"

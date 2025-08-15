@@ -37,7 +37,7 @@ export default function ReactHookForm({
   });
   console.log('errors', errors);
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} data-testid="react-hook-form">
       {(Object.keys(TEXT_FIELDS) as Array<keyof typeof TEXT_FIELDS>).map(
         (field) => {
           return (
