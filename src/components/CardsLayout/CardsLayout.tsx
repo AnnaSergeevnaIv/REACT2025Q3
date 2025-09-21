@@ -17,7 +17,7 @@ export async function CardsLayout({
   searchParams: Promise<{ page?: string; search?: string }>;
 }) {
   const resolvedParams = await searchParams;
-  const page = resolvedParams.page || '1';
+  const page = resolvedParams.page || '2';
   const search = resolvedParams.search || '';
 
   const data = await fetch(
