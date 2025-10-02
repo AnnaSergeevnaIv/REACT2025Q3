@@ -1,0 +1,10 @@
+export const DETAIL_PAGE_CLASS = 'detail-page';
+export const DETAIL_PAGE_TITLE_CLASS = 'detail-page-title';
+export const DETAIL_PAGE_IMG_CONTAINER_CLASS = 'detail-page-img-container';
+export const DETAIL_PAGE_IMG_CLASS = 'detail-page-img';
+export const DETAIL_PAGE_LIST_CLASS = 'detail-page-list';
+export const DETAIL_PAGE_BUTTON_CLASS = 'detail-page-button';
+export const DETAIL_PAGE_TEST_ID = 'detail-page';
+export const DETAIL_PAGE_BUTTON_NAME = 'Back';
+export const DETAIL_PAGE_LOADING = 'Loading...';
+export const DETAIL_PAGE_ERROR = 'Something went wrong';

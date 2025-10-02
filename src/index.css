@@ -1,9 +1,8 @@
-@import 'tailwindcss';
-
 
 body {
   overflow-x: hidden;
   box-sizing: border-box;
+  margin: 0;
 }
 .light {
   --background-color: white;
@@ -14,7 +13,7 @@ body {
 
 .dark {
   --background-color: black;
-  --button-background-color: #1a1a1a;
+  --button-background-color: #626060;
   --text-color: white;
   --border-color: yellow;
 }
@@ -90,6 +89,12 @@ input {
 h3 {
   font-size: 1.2rem;
   font-weight: 600;
+  margin: 0;
+}
+p {
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0.5rem 0;
 }
 
 .card:hover {

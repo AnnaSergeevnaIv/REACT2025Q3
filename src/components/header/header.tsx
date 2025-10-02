@@ -1,52 +1,27 @@
-import { useContext, useState, type ChangeEvent } from 'react';
-import logo from '../../assets/logo.png';
-import {
-  HEADER_ABOUT_BUTTON_NAME,
-  HEADER_CLASS,
-  HEADER_IMAGE_CLASS,
-  HEADER_THEME_DARK_BUTTON_NAME,
-  HEADER_THEME_LIGHT_BUTTON_NAME,
-} from './Header.constants';
-import { useNavigate } from 'react-router';
-import { ThemeContext } from '../../services/ThemeContext';
-import { SearchBar } from '../SearchBar';
-
-export interface HeaderProps {
-  clickHandle: (value: string) => void;
-  value: string;
-}
-
-export function Header({ clickHandle, value }: HeaderProps) {
-  const [inputValue, setInputValue] = useState(value);
-  const navigate = useNavigate();
-  const { theme, setTheme } = useContext(ThemeContext);
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleThemeToggle = () =>
-    setTheme(theme === 'light' ? 'dark' : 'light');
-
+import { HEADER_CLASS, HEADER_IMAGE_CLASS } from './Header.constants';
+import { SearchBar } from '@/components/SearchBar';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import Image from 'next/image';
+import { AboutButton } from '@/components/AboutButton';
+import './Header.css';
+import React from 'react';
+import { getTranslations } from 'next-intl/server';
+import { LanguageSwitcher } from '../LanguageSwitcher/LanguageSwitcher';
+export async function Header() {
+  const t = await getTranslations('Header');
   return (
     <header className={HEADER_CLASS}>
-      <img src={logo} alt="start wars logo" className={HEADER_IMAGE_CLASS} />
-      <SearchBar
-        onChange={handleChange}
-        onClick={clickHandle}
-        value={inputValue}
+      <Image
+        src="/logo.png"
+        alt={t('logo')}
+        className={HEADER_IMAGE_CLASS}
+        width={100}
+        height={50}
       />
-      <button
-        onClick={() => {
-          navigate('/about');
-        }}
-      >
-        {HEADER_ABOUT_BUTTON_NAME}
-      </button>
-      <button onClick={handleThemeToggle}>
-        {theme === 'light'
-          ? HEADER_THEME_DARK_BUTTON_NAME
-          : HEADER_THEME_LIGHT_BUTTON_NAME}
-      </button>
+      <SearchBar />
+      <AboutButton />
+      <ThemeToggle />
+      <LanguageSwitcher />
     </header>
   );
 }

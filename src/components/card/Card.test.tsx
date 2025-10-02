@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Card, type CardProps } from './Card';
+import { Card, type CardProps } from './card';
 import placeholder from '../../assets/placeholder.png';
 import userEvent from '@testing-library/user-event';
 import {
